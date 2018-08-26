@@ -13,4 +13,17 @@ describe SpeedTest::SpeedData do
       expect(speed.speed_info).to eq(speed_info)
     end
   end
+
+  describe 'during initialization' do
+    let(:speed) { described_class.new }
+    let(:speed_info) { 'speed info '}
+
+    before do
+      allow_any_instance_of(described_class).to receive(:system).with('speedtest-cli --simple').and_return(speed_info)
+    end
+
+    it 'calls command line speedtest-cli' do
+      expect(speed.speed_info).to eq(speed_info)
+    end
+  end
 end

@@ -7,5 +7,9 @@ module SpeedTest
     def connection_info
       system('ip link')
     end
+
+    def wireless?
+      true
+    end
   end
 end

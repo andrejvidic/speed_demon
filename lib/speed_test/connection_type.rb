@@ -1,7 +1,10 @@
 module SpeedTest
   class ConnectionType
-    def self.wireless?
-      
+    def initialize
+      @connection_info = connection_info
+    end
+
+    def connection_info
     end
   end
 end

@@ -9,7 +9,10 @@ module SpeedTest
     end
 
     def wireless?
-      true
+      ip_link_status_array = connection_info.split("\n")
+      ip_link_status_array.any? do |line|
+        line.include?('state UP') && line.include?('wl')
+      end
     end
   end
 end

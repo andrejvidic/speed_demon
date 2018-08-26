@@ -5,6 +5,7 @@ module SpeedTest
     end
 
     def connection_info
+      system('ip link')
     end
   end
 end

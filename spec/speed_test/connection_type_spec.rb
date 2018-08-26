@@ -3,7 +3,7 @@ require 'spec_helper'
 describe SpeedTest::ConnectionType do
   describe 'upon intialization, ' do
     before do
-    allow_any_instance_of(SpeedTest::ConnectionType).to receive(:connection_info).and_return(ip_link)
+    allow_any_instance_of(described_class).to receive(:connection_info).and_return(ip_link)
     end
 
     let(:connection) { described_class.new }

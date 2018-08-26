@@ -1,12 +1,16 @@
 require 'spec_helper'
 
 describe SpeedTest::ConnectionType do
-  describe 'using ip link command from linux ip package, ' do
-    let(:wireless_connection?) { SpeedTest::ConnectionType.wireless?}
+  describe 'upon intialization, ' do
+    before do
+    allow_any_instance_of(SpeedTest::ConnectionType).to receive(:connection_info).and_return(ip_link)
+    end
 
-    it 'makes a system call to ip link' do
-      expect(wireless_connection?).to receive(:system).with('ip link')
-      wireless_connection?
+    let(:connection) { described_class.new }
+    let(:ip_link) { 'connection_info_string' }
+
+    it 'calls method connection_info' do
+      expect(connection.connection_info).to eq(ip_link)
     end
   end
 end

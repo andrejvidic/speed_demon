@@ -10,7 +10,7 @@ describe SpeedTest::SpeedData do
     let(:speed) { described_class.new}
 
     it 'calls speed_info' do
-x      expect(speed.speed_info).to eq(speed_info)
+      expect(speed.speed_info).to eq(speed_info)
     end
   end
 end

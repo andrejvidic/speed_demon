@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SpeedTest::ExtractData do
+describe SpeedTest::SpeedData do
   describe 'upon initialization, 'do
     before do
       allow_any_instance_of(described_class).to receive(:speed_info).and_return(speed_info)
@@ -10,7 +10,7 @@ describe SpeedTest::ExtractData do
     let(:speed) { described_class.new}
 
     it 'calls speed_info' do
-      expect(speed).to eq(speed_info)
+x      expect(speed.speed_info).to eq(speed_info)
     end
   end
 end

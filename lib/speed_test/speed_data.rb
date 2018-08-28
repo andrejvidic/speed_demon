@@ -13,6 +13,10 @@ module SpeedTest
       ping_string.split(' ')[1]
     end
 
+    def ping_unit
+      ping_string.split(' ')[2]
+    end
+
     def download
       download_string.split(' ')[1]
     end

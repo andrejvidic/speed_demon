@@ -24,6 +24,7 @@ describe SpeedTest::SpeedData do
     let(:ping_unit) { 'ms' }
     let(:download_unit) { 'Mbit/s' }
     let(:upload_unit) { 'Mbit/s' }
+    let(:time) { Time.now }
 
     before do
       allow_any_instance_of(described_class).to receive(:system).with('speedtest-cli --simple').and_return(info)
@@ -55,6 +56,11 @@ describe SpeedTest::SpeedData do
 
     it 'extracts the upload unit' do
       expect(speed.upload_unit).to eq(upload_unit)
+    end
+
+    it 'extracts the time' do
+      allow(Time).to receive(:now).and_return(time)
+      expect(speed.time).to eq(time)
     end
   end
 end

@@ -33,6 +33,10 @@ module SpeedTest
       upload_string.split(' ')[2]
     end
 
+    def time
+      Time.now
+    end
+
     private
     def ping_string
       info[0]

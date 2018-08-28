@@ -21,6 +21,10 @@ module SpeedTest
       download_string.split(' ')[1]
     end
 
+    def upload
+      upload_string.split(' ')[1]
+    end    
+
     private
     def ping_string
       info[0]
@@ -28,6 +32,10 @@ module SpeedTest
 
     def download_string
       info[1]
+    end
+
+    def upload_string
+      info[2]
     end
   end
 end

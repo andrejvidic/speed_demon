@@ -21,6 +21,10 @@ module SpeedTest
       download_string.split(' ')[1]
     end
 
+    def download_unit
+      download_string.split(' ')[2]
+    end
+
     def upload
       upload_string.split(' ')[1]
     end    

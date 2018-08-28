@@ -16,7 +16,7 @@ describe SpeedTest::SpeedData do
 
   describe 'during initialization' do
     let(:speed) { described_class.new }
-    let(:info) { 'Ping: 5.036ms\nDownload: 36.31 Mbit/s\nUpload: 5.43 Mbit/s' }
+    let(:info) { 'Ping: 5.036 ms\nDownload: 36.31 Mbit/s\nUpload: 5.43 Mbit/s' }
     let(:info_array) { ['Ping: 5.036 ms', 'Download: 36.31 Mbit/s', 'Upload: 5.43 Mbit/s'] }
     let(:ping) { '5.036' }
     let(:download) { '36.31' }

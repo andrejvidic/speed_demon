@@ -1,22 +1,22 @@
-# Internet Speed Logger
+* Internet Speed Logger
 Run internet connection speed checks for a specified interval and log the results out to csv.  
 
-## Ruby Gem Dependencies 
+** Ruby Gem Dependencies 
 whenever
 speedtest-cli
 
 These gems can be installed to the system ruby (if using a rapsberrypi) or can be installed via rbenv.
 If you wish to use other ruby version managers then everything should still work provided you add the path location for the ruby version. 
 
-## Hardware
+** Hardware
 At least 1Ghz processor and 2Gb of RAM. 
 These figures are hand wavy however I have proven that any CPU speed below 1GHz affects that calculated speed. i.e the calculated speed will be less than that actual speed. 
 
-## Installation
+** Installation
 git clone this project to a desired location
 install the ruby gem dependencies listed
 
 
-## Output
+** Output
 For now all ouput is appended into a CSV file, which can be used for graphing and analysis.
 

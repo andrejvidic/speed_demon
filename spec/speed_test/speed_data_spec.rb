@@ -19,6 +19,7 @@ describe SpeedTest::SpeedData do
     let(:info) { 'Ping: 5.036ms\nDownload: 36.31 Mbit/s\nUpload: 5.43 Mbit/s' }
     let(:info_array) { ['Ping: 5.036 ms', 'Download: 36.31 Mbit/s', 'Upload: 5.43 Mbit/s'] }
     let(:ping) { '5.036' }
+    let(:download) { '36.31' }
 
     before do
       allow_any_instance_of(described_class).to receive(:system).with('speedtest-cli --simple').and_return(info)
@@ -30,6 +31,10 @@ describe SpeedTest::SpeedData do
 
     it 'extracts the ping value' do
       expect(speed.ping).to eq(ping)
+    end
+
+    it 'extracts the download value' do
+      expect(speed.download).to eq(download)
     end
   end
 end

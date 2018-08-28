@@ -5,7 +5,7 @@ module SpeedTest
     end
 
     def info
-      system('speedtest-cli --simple')
+      system('speedtest-cli --simple').split('\n')
     end
   end
 end

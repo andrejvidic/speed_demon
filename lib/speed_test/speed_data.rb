@@ -2,7 +2,6 @@ module SpeedTest
   class SpeedData
     def initialize
       @info = info
-      @ping = ping
     end
 
     def info

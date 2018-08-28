@@ -27,7 +27,11 @@ module SpeedTest
 
     def upload
       upload_string.split(' ')[1]
-    end    
+    end
+
+    def upload_unit
+      upload_string.split(' ')[2]
+    end
 
     private
     def ping_string

@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Andre Vidic"]
   spec.email         = ["andrevidic1@gmail.com"]
 
-  spec.summary       = %q{Cron speed test}
-  spec.description   = %q{Easily test your internet connection speed and log it.}
+  spec.summary       = %q{Schedule internet speed test checks and easily log the data}
+  spec.description   = %q{Wrapping the awesome whenever gem to add cron scheduling functionality as well as wrapping speedtest-cli to run easily run an internet speedtest against your closest isp}
   spec.homepage      = "https://github.com/drej2k/speed_test"
   spec.license       = "MIT"
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|

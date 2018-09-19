@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+
+dir = 'speedtest'
+base = Dir.pwd
+path = File.join(base, dir)
+
+puts "[add] `#{path}'"
+FileUtils.mkdir_p(path)

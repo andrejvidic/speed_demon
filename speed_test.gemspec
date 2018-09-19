@@ -13,10 +13,10 @@ Gem::Specification.new do |spec|
   spec.description   = %q{Wrapping the awesome whenever gem to add cron scheduling functionality as well as wrapping speedtest-cli to run easily run an internet speedtest against your closest isp}
   spec.homepage      = "https://github.com/drej2k/speed_test"
   spec.license       = "MIT"
-  spec.files         = `git ls-files -z`.split("\x0").reject do |f|
-    f.match(%r{^(test|spec|features)/})
-  end
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+
+  spec.files         = `git ls-files`.split("\n")
+  spec.test_files    = `git ls-files -- spec/*`.split("\n")
+  spec.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.14"

@@ -6,5 +6,9 @@ dir = 'speedtest'
 base = Dir.pwd
 path = File.join(base, dir)
 
-puts "[add] `#{path}'"
-FileUtils.mkdir_p(path)
+if Dir.exist?(path)
+   warn "speedtest directory exists, not created"
+else
+   puts "[add] `#{path}'"
+   FileUtils.mkdir_p(path)
+end

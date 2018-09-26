@@ -103,12 +103,13 @@ describe 'Run command line executable speedtest_init,' do
 
       after do
         # clean up
-        FileUtils.rm_rf(speed_test_path) if File.directory?(speed_test_path)
+        dirs = ['speedtest', 'speedtest/output', 'speedtest/cron_logs']
+        dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir)}
       end
 
       it 'does not create a directory' do
         expect { system('speedtest_init') }
-          .to output("speedtest directory exists, not created\n")
+          .to output(include("speedtest exists, not created\n"))
           .to_stderr_from_any_process
       end
     end
@@ -122,11 +123,11 @@ describe 'Run command line executable speedtest_init,' do
 
       after do
         # cleanup
-        FileUtils.rm_rf(speed_test_path) if File.directory?(speed_test_path)
+        dirs = ['speedtest', 'speedtest/output', 'speedtest/cron_logs']
+        dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir)}
       end
 
       it 'creates a speedtest directory' do
-        puts "speed_test_path: #{speed_test_path}"
         system('speedtest_init')
         expect(File.directory?(speed_test_path)).to be true
       end

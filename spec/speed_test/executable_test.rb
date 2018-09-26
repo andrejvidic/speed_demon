@@ -2,6 +2,31 @@ require 'spec_helper'
 require 'fileutils'
 
 describe 'Run command line executable speedtest_init,' do
+  describe 'if speedtest/output directory already exists,' do
+    describe 'print warning message,' do
+      let (:create_existing_directory) { FileUtils.mkdir_p(File.join(Dir.pwd, 'speedtest/output')) }
+      let (:dir) { Dir.pwd }
+      let (:file) { 'speedtest/output' }
+      let(:output_test_path) { File.join(dir, file) }
+
+      before do
+        create_existing_directory
+      end
+
+      after do
+        # clean up
+        dirs = ['speedtest', 'speedtest/output', 'speedtest/cron_logs']
+        dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir)}
+      end
+
+      it 'does not create a directory' do
+        expect { system('speedtest_init') }
+          .to output(include("speedtest/output exists, not created\n"))
+          .to_stderr_from_any_process
+      end
+    end
+  end
+
   describe 'if speedtest/output directory does not exist,' do
     describe 'create directory to current working directory' do
       let (:dir) { Dir.pwd }

@@ -2,13 +2,15 @@
 
 require 'fileutils'
 
-dir = 'speedtest'
-base = Dir.pwd
-path = File.join(base, dir)
+dirs = ['speedtest', 'speedtest/output', 'speedtest/cron_logs']
+dirs.each do |dir|
+  base = Dir.pwd
+  path = File.join(base, dir)
 
-if Dir.exist?(path)
-   warn "speedtest directory exists, not created"
-else
-   puts "[add] `#{path}'"
-   FileUtils.mkdir_p(path)
+  if Dir.exist?(path)
+    warn "#{dir} exists, not created"
+  else
+    puts "[add] `#{path}'"
+    FileUtils.mkdir_p(path)
+  end
 end

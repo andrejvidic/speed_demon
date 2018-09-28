@@ -28,76 +28,32 @@ describe 'Run command line executable speedtest_init,' do
     end
   end
 
-  describe 'if speedtest/cron_logs directory already exists,' do
-    describe 'print warning message,' do
-      let (:create_existing_directory) { FileUtils.mkdir_p(File.join(Dir.pwd, 'speedtest/cron_logs')) }
-      let (:dir) { Dir.pwd }
+  describe 'if speedtest directories already exists,' do
+    describe 'print warning messages,' do
+
+      let (:base_dir) { '/tmp' }
+      let (:dirs) { ['speedtest', 'speedtest/cron_logs', 'speedtest/output'] }
+      let (:set_current_directory) { Dir.chdir(base_dir) }
+
+      let (:create_existing_directories) { dirs.each { |dir| FileUtils.mkdir_p(File.join(base_dir, dir)) } }
       let (:file) { 'speedtest/cron_logs' }
       let(:cron_test_path) { File.join(dir, file) }
 
       before do
-        create_existing_directory
+        set_current_directory
+        create_existing_directories
       end
 
       after do
         # clean up
-        dirs = ['speedtest', 'speedtest/output', 'speedtest/cron_logs']
-        dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir)}
+        dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir) }
       end
 
       it 'does not create a directory' do
         expect { system('speedtest_init') }
-          .to output(include("speedtest/cron_logs exists, not created\n"))
-          .to_stderr_from_any_process
-      end
-    end
-  end
-
-  describe 'if speedtest/output directory already exists,' do
-    describe 'print warning message,' do
-      let (:create_existing_directory) { FileUtils.mkdir_p(File.join(Dir.pwd, 'speedtest/output')) }
-      let (:dir) { Dir.pwd }
-      let (:file) { 'speedtest/output' }
-      let(:output_test_path) { File.join(dir, file) }
-
-      before do
-        create_existing_directory
-      end
-
-      after do
-        # clean up
-        dirs = ['speedtest', 'speedtest/output', 'speedtest/cron_logs']
-        dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir)}
-      end
-
-      it 'does not create a directory' do
-        expect { system('speedtest_init') }
-          .to output(include("speedtest/output exists, not created\n"))
-          .to_stderr_from_any_process
-      end
-    end
-  end
-
-  describe 'if speedtest directory already exists,' do
-    describe 'print warning message,' do
-      let (:create_existing_directory) { FileUtils.mkdir_p(File.join(Dir.pwd, 'speedtest')) }
-      let (:dir) { Dir.pwd }
-      let (:file) { 'speedtest' }
-      let(:speed_test_path) { File.join(dir, file) }
-
-      before do
-        create_existing_directory
-      end
-
-      after do
-        # clean up
-        dirs = ['speedtest', 'speedtest/output', 'speedtest/cron_logs']
-        dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir)}
-      end
-
-      it 'does not create a directory' do
-        expect { system('speedtest_init') }
-          .to output(include("speedtest exists, not created\n"))
+          .to output(include("speedtest exists, not created\n",
+                             "speedtest/cron_logs exists, not created\n",
+                             "speedtest/output exists, not created\n"))
           .to_stderr_from_any_process
       end
     end

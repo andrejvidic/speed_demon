@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'fileutils'
+require_relative '../lib/speed_test'
 
-SpeedTest::Initialize
+base = Dir.pwd
+SpeedTest::Setup.new({base_dir: base}).create_directories

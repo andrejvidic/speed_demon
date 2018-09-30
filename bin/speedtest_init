@@ -1,7 +1,15 @@
 #!/usr/bin/env ruby
 
 require 'fileutils'
+require 'optparse'
 require_relative '../lib/speed_test'
 
-base = Dir.pwd
-SpeedTest::Setup.new({base_dir: base}).create_directories
+@custom = {}
+
+OptionParser.new do |opt|
+  opt.on('-o', '--output PATH', String, 'specify path to output directory') do |path|
+    @custom[:output] = path
+  end
+end.parse!
+
+SpeedTest::Setup.new(base_dir: Dir.pwd, custom: @custom).directories

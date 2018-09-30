@@ -2,6 +2,31 @@ require 'spec_helper'
 require 'fileutils'
 
 describe 'Run command line executable speedtest_init,' do
+  describe 'allowing a user to specify location of the output directory,' do
+    describe 'using --output PATH,' do
+      let (:base_dir) { '/tmp' }
+      let (:output_dir) { "#{base_dir}/output" }
+
+      let (:command) { "speedtest_init --output #{output_dir}" }
+      let (:dirs) { ["#{base_dir}/speedtest", output_dir, "#{base_dir}/speedtest/cron_logs"] }
+      let (:set_current_directory) { Dir.chdir(base_dir) }
+
+      before do
+        set_current_directory
+      end
+
+      after do
+        # cleanup
+        dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir) }
+      end
+
+      it 'creates output directory at /tmp/output' do
+        system(command)
+        expect(File.directory?(output_dir)).to be true
+      end
+    end
+  end
+
   describe 'allowing a user to navigate to any directory, /tmp directory for example,' do
     describe 'and create all speedtest directories at this location' do
       let (:base_dir) { '/tmp' }

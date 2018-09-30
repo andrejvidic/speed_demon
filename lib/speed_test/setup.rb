@@ -3,21 +3,25 @@ require 'fileutils'
 module SpeedTest
   class Setup
     def initialize(options)
-      @dirs = ['speedtest', 'speedtest/output', 'speedtest/cron_logs']
       @base = options[:base_dir]
+      @output = options[:custom][:output] || "#{@base}/output"
+      @dirs = dirs
     end
 
-    def create_directories
+    def directories
       @dirs.each do |dir|
-        path = File.join(@base, dir)
-
-        if Dir.exist?(path)
+        if Dir.exist?(dir)
           warn "#{dir} exists, not created"
         else
-          puts "[add] `#{path}'"
-          FileUtils.mkdir_p(path)
+          puts "[add] `#{dir}'"
+          FileUtils.mkdir_p(dir)
         end
       end
+    end
+
+    private
+    def dirs
+      [] << 'speedtest' << @output << 'speedtest/cron_logs'
     end
   end
 end

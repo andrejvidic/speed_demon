@@ -4,11 +4,13 @@ require 'fileutils'
 describe 'Run command line executable speedtest_init,' do
   describe 'allowing a user to specify location of the output directory,' do
     describe 'using --output PATH,' do
+  describe 'allowing a user to specify location of the output & log directories,' do
+    describe 'using --option PATH,' do
       let (:base_dir) { '/tmp' }
       let (:output_dir) { "#{base_dir}/output" }
+      let (:cron_log_dir) { "#{base_dir}/log" }
 
-      let (:command) { "speedtest_init --output #{output_dir}" }
-      let (:dirs) { ["#{base_dir}/speedtest", output_dir, "#{base_dir}/speedtest/cron_logs"] }
+      let (:dirs) { [base_dir, output_dir, cron_log_dir] }
       let (:set_current_directory) { Dir.chdir(base_dir) }
 
       before do
@@ -21,8 +23,13 @@ describe 'Run command line executable speedtest_init,' do
       end
 
       it 'creates output directory at /tmp/output' do
-        system(command)
+        system("speedtest_init --output #{output_dir}")
         expect(File.directory?(output_dir)).to be true
+      end
+
+      it 'creates cron_log directory at /tmp/log' do
+        system("speedtest_init --log #{cron_log_dir}")
+        expect(File.directory?(cron_log_dir)).to be true
       end
     end
   end

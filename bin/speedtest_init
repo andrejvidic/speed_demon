@@ -10,6 +10,10 @@ OptionParser.new do |opt|
   opt.on('-o', '--output PATH', String, 'specify path for output directory') do |path|
     @custom[:output] = path
   end
+
+  opt.on('-l', '--log PATH', String, 'specify path for log directory') do |path|
+    @custom[:log] = path
+  end  
 end.parse!
 
 SpeedTest::Setup.new(base_dir: Dir.pwd, custom: @custom).directories

@@ -3,13 +3,13 @@ require 'fileutils'
 module SpeedTest
   class Setup
     def initialize(options)
-      @base = options[:base_dir]
+      @base = "#{options[:base_dir]}/speedtest"
       @output = options[:custom][:output] || "#{@base}/output"
-      @dirs = dirs
+      @log = options[:custom][:log] || "#{@base}/log"
     end
 
     def directories
-      @dirs.each do |dir|
+      dirs.each do |dir|
         if Dir.exist?(dir)
           warn "#{dir} exists, not created"
         else
@@ -20,8 +20,9 @@ module SpeedTest
     end
 
     private
+
     def dirs
-      [] << 'speedtest' << @output << 'speedtest/cron_logs'
+      [] << @base << @output << @log
     end
   end
 end

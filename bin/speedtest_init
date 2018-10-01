@@ -7,6 +7,11 @@ require_relative '../lib/speed_test'
 @custom = {}
 
 OptionParser.new do |opt|
+  opt.on('-h', '--help', 'Display this screen') do
+    puts opt
+    exit
+  end
+
   opt.on('-o', '--output PATH', String, 'specify path for output directory') do |path|
     @custom[:output] = path
   end

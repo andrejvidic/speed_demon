@@ -7,7 +7,7 @@ require_relative '../lib/speed_test'
 @custom = {}
 
 OptionParser.new do |opt|
-  opt.on('-o', '--output PATH', String, 'specify path to output directory') do |path|
+  opt.on('-o', '--output PATH', String, 'specify path for output directory') do |path|
     @custom[:output] = path
   end
 end.parse!

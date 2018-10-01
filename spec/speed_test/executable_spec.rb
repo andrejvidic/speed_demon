@@ -57,12 +57,9 @@ describe 'Run command line executable speedtest_init,' do
     describe 'print warning messages,' do
 
       let (:base_dir) { '/tmp' }
-      let (:dirs) { ['speedtest', 'speedtest/cron_logs', 'speedtest/output'] }
+      let (:dirs) { ["#{base_dir}/speedtest", "#{base_dir}/speedtest/log", "#{base_dir}/speedtest/output"] }
       let (:set_current_directory) { Dir.chdir(base_dir) }
-
-      let (:create_existing_directories) { dirs.each { |dir| FileUtils.mkdir_p(File.join(base_dir, dir)) } }
-      let (:file) { 'speedtest/cron_logs' }
-      let(:cron_test_path) { File.join(dir, file) }
+      let (:create_existing_directories) { dirs.each { |dir| FileUtils.mkdir_p(dir) } }
 
       before do
         set_current_directory
@@ -76,9 +73,9 @@ describe 'Run command line executable speedtest_init,' do
 
       it 'does not create a directory' do
         expect { system('speedtest_init') }
-          .to output(include("speedtest exists, not created\n",
-                             "speedtest/cron_logs exists, not created\n",
-                             "speedtest/output exists, not created\n"))
+          .to output(include("/tmp/speedtest exists, not created\n",
+                             "/tmp/speedtest/log exists, not created\n",
+                             "/tmp/speedtest/output exists, not created\n"))
           .to_stderr_from_any_process
       end
     end

@@ -30,7 +30,7 @@ describe 'Run command line executable speedtest_init,' do
   describe 'allowing a user to navigate to any directory, /tmp directory for example,' do
     describe 'and create all speedtest directories at this location' do
       let (:base_dir) { '/tmp' }
-      let (:dirs) { ['speedtest', 'speedtest/cron_logs', 'speedtest/output'] }
+      let (:dirs) { ["#{base_dir}/speedtest", "#{base_dir}/speedtest/log", "#{base_dir}/speedtest/output"] }
       let (:set_current_directory) { Dir.chdir(base_dir) }
 
       before do
@@ -39,15 +39,13 @@ describe 'Run command line executable speedtest_init,' do
 
       after do
         # cleanup
-        dirs = ['speedtest', 'speedtest/output', 'speedtest/cron_logs']
         dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir)}
       end
 
       it 'creates a speedtest directory' do
         system('speedtest_init')
         dirs.each do |dir|
-          path = File.join(base_dir, dir)
-          expect(File.directory?(path)).to be true
+          expect(File.directory?(dir)).to be true
         end
       end
     end

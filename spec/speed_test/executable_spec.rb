@@ -2,8 +2,17 @@ require 'spec_helper'
 require 'fileutils'
 
 describe 'Run command line executable speedtest_init,' do
-  describe 'allowing a user to specify location of the output directory,' do
-    describe 'using --output PATH,' do
+  describe 'with the -h or --help flag,' do
+    it 'prints the help menu to STDOUT' do
+      expect { system('speedtest_init -h') }
+        .to output(include("Usage: speedtest_init [options]",
+                           "    -h, --help                       Display this screen",
+                           "    -o, --output PATH                specify path for output directory",
+                           "    -l, --log PATH                   specify path for log directory"))
+        .to_stdout_from_any_process
+    end
+  end
+
   describe 'allowing a user to specify location of the output & log directories,' do
     describe 'using --option PATH,' do
       let (:base_dir) { '/tmp' }

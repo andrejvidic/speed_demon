@@ -55,7 +55,7 @@ describe 'Run command line executable speedtest_init,' do
 
       after do
         # cleanup
-        dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir)}
+        dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir) }
       end
 
       it 'creates a speedtest directory' do

@@ -33,11 +33,11 @@ describe SpeedTest::SaveData do
       ping = 10
       download = 45
       upload = 20
-      SpeedTest::SaveData.new(csv).save({time: time,
-                                         ping: ping,
-                                         download: download,
-                                         upload: upload,
-                                         wireless?: false })
+      SpeedTest::SaveData.new(csv).save(time: time,
+                                        ping: ping,
+                                        download: download,
+                                        upload: upload,
+                                        wireless?: false)
       csv_second_line = IO.readlines(csv)[1]
       data_string = "#{time},#{ping},#{download},#{upload},false\n"
       expect(csv_second_line).to eq(data_string)

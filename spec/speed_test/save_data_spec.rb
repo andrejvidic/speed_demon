@@ -17,8 +17,15 @@ describe SpeedTest::SaveData do
     end
 
     it 'creates a csv file in the specified output directory' do
-      SpeedTest::SaveData.new(csv)
-      expect(File.file?(csv)).to be true
+      SpeedTest::SaveData.new(csv).create_csv
+      expect(File.exist?(csv)).to be true
+    end
+
+    it 'the first line of the csv is a header' do
+      SpeedTest::SaveData.new(csv).create_csv
+      csv_first_line = IO.readlines(csv)[0]
+      header_string = "Time,Ping (ms),Download Speed (Mbit/s),Upload Speed (Mbit/s),wireless connection?\n"
+      expect(csv_first_line).to eq(header_string)
     end
   end
 end

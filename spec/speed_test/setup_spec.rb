@@ -34,6 +34,11 @@ RSpec.describe SpeedTest::Setup do
         SpeedTest::Setup.new(options).create_cron
         expect(File.directory?(config)).to be true
       end
+
+      it 'creates the tasks directory' do
+        SpeedTest::Setup.new(options).create_cron
+        expect(File.exist?(schedule_file)).to be true
+      end
     end
   end
 end

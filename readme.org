@@ -13,8 +13,16 @@ At least 1Ghz processor and 2Gb of RAM.
 These figures are hand wavy however I have proven that any CPU speed below 1GHz affects that calculated speed. i.e the calculated speed will be less than that actual speed. 
 
 ** Installation
-git clone this project to a desired location
-install the ruby gem dependencies listed
+1. git clone this project to a desired location
+2. install the dependencies listed
+3. call speedtest_init from the command line with optional INSTALL_PATH and desired options
+: speedtest_init INSTALL_PATH [options]
+
+or simply install to current directory with all defaults
+: speedtest_init 
+
+4. enjoy
+
 
 
 ** Output

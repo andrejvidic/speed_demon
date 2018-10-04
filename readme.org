@@ -44,5 +44,6 @@ or simply install to current directory with all defaults
 |            |                   |                                   |                 |                               |
 
 ** Output
-For now all ouput is appended into a CSV file, which can be used for graphing and analysis.
+As specified by CLI option, for now all output is appended to CSV. 
+The output is intended to be used for graphing and analysis.
 

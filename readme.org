@@ -1,5 +1,5 @@
 * Internet Speed Logger
-Run internet connection speed checks for a specified interval and log the results out to csv.  
+Run internet connection speed checks for a specified interval and log the results.
 
 ** Dependencies
 

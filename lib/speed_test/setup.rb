@@ -19,6 +19,10 @@ module SpeedTest
       end
     end
 
+    def create_cron
+      system("wheneverize #{@base}")
+    end
+
     private
 
     def dirs

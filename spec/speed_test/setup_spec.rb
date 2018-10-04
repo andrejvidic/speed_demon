@@ -9,12 +9,12 @@ RSpec.describe SpeedTest::Setup do
     let (:schedule_file) { "#{speedtest}/config/schedule.rb"}
     let (:output_dir) { "#{base_dir}/output" }
     let (:cron_log_dir) { "#{base_dir}/log" }
-    let (:create_speedtest_dir) { Dir.mkdir(speedtest) }
-    let (:options) { {base_dir: base_dir, custom: { output: output_dir, log: cron_log_dir }} }
+    let (:options) { { base_dir: base_dir, custom: { output: output_dir, log: cron_log_dir } } }
     let (:whenever) { 'whenever gem called' }
+    let (:setup) { SpeedTest::Setup.new(options) }
 
     before do
-      create_speedtest_dir
+      setup.directories
     end
 
     after do
@@ -26,17 +26,17 @@ RSpec.describe SpeedTest::Setup do
       allow_any_instance_of(SpeedTest::Setup).to receive(:system)
         .with("wheneverize #{speedtest}")
         .and_return(whenever)
-      expect(SpeedTest::Setup.new(options).create_cron).to eq(whenever)
+      expect(setup.create_cron).to eq(whenever)
     end
 
     describe 'calls whenever gem,' do
       it 'creates the config directory' do
-        SpeedTest::Setup.new(options).create_cron
+        setup.create_cron
         expect(File.directory?(config)).to be true
       end
 
       it 'creates the tasks directory' do
-        SpeedTest::Setup.new(options).create_cron
+        setup.create_cron
         expect(File.exist?(schedule_file)).to be true
       end
     end

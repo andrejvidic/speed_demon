@@ -1,6 +1,9 @@
 * Internet Speed Logger
 Run internet connection speed checks for a specified interval and log the results.
 
+** Project aim
+Run command line executable with or without options and everything is setup.
+
 ** Dependencies
 
 *** Ruby gem

@@ -16,10 +16,10 @@ describe 'Run command line executable speedtest_init,' do
   describe 'allowing a user to specify location of the output & log directories,' do
     describe 'using --option PATH,' do
       let (:base_dir) { '/tmp' }
-      let (:output_dir) { "#{base_dir}/output" }
-      let (:cron_log_dir) { "#{base_dir}/log" }
-
-      let (:dirs) { [base_dir, output_dir, cron_log_dir] }
+      let (:speedtest) { "#{base_dir}/speedtest"}
+      let (:output_dir) { "#{base_dir}/speedtest/output" }
+      let (:cron_log_dir) { "#{base_dir}/speedtest/log" }
+      let (:dirs) { [speedtest, output_dir, cron_log_dir] }
       let (:set_current_directory) { Dir.chdir(base_dir) }
 
       before do
@@ -46,7 +46,10 @@ describe 'Run command line executable speedtest_init,' do
   describe 'allowing a user to navigate to any directory, /tmp directory for example,' do
     describe 'and create all speedtest directories at this location' do
       let (:base_dir) { '/tmp' }
-      let (:dirs) { ["#{base_dir}/speedtest", "#{base_dir}/speedtest/log", "#{base_dir}/speedtest/output"] }
+      let (:speedtest) { "#{base_dir}/speedtest"}
+      let (:output_dir) { "#{base_dir}/speedtest/output" }
+      let (:cron_log_dir) { "#{base_dir}/speedtest/log" }
+      let (:dirs) { [speedtest, output_dir, cron_log_dir] }
       let (:set_current_directory) { Dir.chdir(base_dir) }
 
       before do
@@ -71,7 +74,10 @@ describe 'Run command line executable speedtest_init,' do
     describe 'print warning messages,' do
 
       let (:base_dir) { '/tmp' }
-      let (:dirs) { ["#{base_dir}/speedtest", "#{base_dir}/speedtest/log", "#{base_dir}/speedtest/output"] }
+      let (:speedtest) { "#{base_dir}/speedtest"}
+      let (:output_dir) { "#{base_dir}/speedtest/output" }
+      let (:cron_log_dir) { "#{base_dir}/speedtest/log" }
+      let (:dirs) { [speedtest, output_dir, cron_log_dir] }
       let (:set_current_directory) { Dir.chdir(base_dir) }
       let (:create_existing_directories) { dirs.each { |dir| FileUtils.mkdir_p(dir) } }
 

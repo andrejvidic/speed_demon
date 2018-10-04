@@ -4,8 +4,8 @@ module SpeedTest
   class Setup
     def initialize(options)
       @base = "#{options[:base_dir]}/speedtest"
-      @output = options[:custom][:output] || "#{@base}/output"
-      @log = options[:custom][:log] || "#{@base}/log"
+      @output = options[:custom][:output] || "#{@base}/speedtest/output"
+      @log = options[:custom][:log] || "#{@base}/speedtest/log"
     end
 
     def directories

@@ -28,5 +28,12 @@ RSpec.describe SpeedTest::Setup do
         .and_return(whenever)
       expect(SpeedTest::Setup.new(options).create_cron).to eq(whenever)
     end
+
+    describe 'calls whenever gem,' do
+      it 'creates the config directory' do
+        SpeedTest::Setup.new(options).create_cron
+        expect(File.directory?(config)).to be true
+      end
+    end
   end
 end

@@ -43,8 +43,8 @@ describe 'Run command line executable speedtest_init,' do
     end
   end
 
-  describe 'allowing a user to navigate to any directory, /tmp directory for example,' do
-    describe 'and create all speedtest directories at this location' do
+  describe 'from a directory, /tmp directory for example,' do
+    describe 'without specifying a path or CLI options,' do
       let (:base_dir) { '/tmp' }
       let (:speedtest) { "#{base_dir}/speedtest"}
       let (:output_dir) { "#{base_dir}/speedtest/output" }
@@ -61,14 +61,13 @@ describe 'Run command line executable speedtest_init,' do
         dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir) }
       end
 
-      it 'creates a speedtest directory' do
+      it 'creates all speedtest directories using default locations for the output & log directories' do
         system('speedtest_init')
         dirs.each do |dir|
           expect(File.directory?(dir)).to be true
         end
       end
     end
-  end
 
   describe 'if speedtest directories already exists,' do
     describe 'print warning messages,' do

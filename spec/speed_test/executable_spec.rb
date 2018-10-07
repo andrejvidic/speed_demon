@@ -78,25 +78,24 @@ describe 'Run command line executable speedtest_init,' do
       let (:output_dir) { "#{base_dir}/speedtest/output" }
       let (:cron_log_dir) { "#{base_dir}/speedtest/log" }
       let (:dirs) { [speedtest, output_dir, cron_log_dir] }
-      let (:set_current_directory) { Dir.chdir(base_dir) }
       let (:create_existing_directories) { dirs.each { |dir| FileUtils.mkdir_p(dir) } }
 
-      before do
-        set_current_directory
-        create_existing_directories
-      end
+        before do
+          create_existing_directories
+        end
 
       after do
         # clean up
         dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir) }
       end
 
-      it 'does not create a directory' do
-        expect { system('speedtest_init') }
-          .to output(include("/tmp/speedtest exists, not created\n",
-                             "/tmp/speedtest/log exists, not created\n",
-                             "/tmp/speedtest/output exists, not created\n"))
-          .to_stderr_from_any_process
+        it 'does not create a directory' do
+          expect { system("speedtest_init #{base_dir}") }
+            .to output(include("#{speedtest} exists, not created\n",
+                               "#{cron_log_dir} exists, not created\n",
+                               "#{output_dir} exists, not created\n"))
+            .to_stderr_from_any_process
+        end
       end
     end
   end

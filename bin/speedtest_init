@@ -18,7 +18,10 @@ OptionParser.new do |opt|
 
   opt.on('-l', '--log PATH', String, 'specify path for log directory') do |path|
     @custom[:log] = path
-  end  
+  end
+
 end.parse!
 
-SpeedTest::Setup.new(base_dir: Dir.pwd, custom: @custom).directories
+@base_dir = ARGV[0] || Dir.pwd
+
+SpeedTest::Setup.new(base_dir: @base_dir, custom: @custom).directories

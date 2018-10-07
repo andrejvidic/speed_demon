@@ -9,6 +9,7 @@ RSpec.describe SpeedTest::Setup do
     let (:schedule_file) { "#{speedtest}/config/schedule.rb"}
     let (:output_dir) { "#{base_dir}/output" }
     let (:cron_log_dir) { "#{base_dir}/log" }
+    let (:dirs) { [speedtest, output_dir, cron_log_dir] }
     let (:options) { { base_dir: base_dir, custom: { output: output_dir, log: cron_log_dir } } }
     let (:whenever) { 'whenever gem called' }
     let (:setup) { SpeedTest::Setup.new(options) }
@@ -19,7 +20,7 @@ RSpec.describe SpeedTest::Setup do
 
     after do
       # cleanup
-      FileUtils.rm_rf(speedtest) if File.directory?(speedtest)
+      dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir) }
     end
 
     it 'calls the whenever gem' do

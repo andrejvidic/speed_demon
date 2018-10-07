@@ -69,24 +69,24 @@ describe 'Run command line executable speedtest_init,' do
       end
     end
 
-  describe 'if speedtest directories already exists,' do
-    describe 'print warning messages,' do
+    describe 'if speedtest directories already exists,' do
+      describe 'print warning messages,' do
 
-      let (:base_dir) { '/tmp' }
-      let (:speedtest) { "#{base_dir}/speedtest"}
-      let (:output_dir) { "#{base_dir}/speedtest/output" }
-      let (:cron_log_dir) { "#{base_dir}/speedtest/log" }
-      let (:dirs) { [speedtest, output_dir, cron_log_dir] }
-      let (:create_existing_directories) { dirs.each { |dir| FileUtils.mkdir_p(dir) } }
+        let (:base_dir) { '/tmp' }
+        let (:speedtest) { "#{base_dir}/speedtest"}
+        let (:output_dir) { "#{base_dir}/speedtest/output" }
+        let (:cron_log_dir) { "#{base_dir}/speedtest/log" }
+        let (:dirs) { [speedtest, output_dir, cron_log_dir] }
+        let (:create_existing_directories) { dirs.each { |dir| FileUtils.mkdir_p(dir) } }
 
         before do
           create_existing_directories
         end
 
-      after do
-        # clean up
-        dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir) }
-      end
+        after do
+          # clean up
+          dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir) }
+        end
 
         it 'does not create a directory' do
           expect { system("speedtest_init #{base_dir}") }

@@ -17,8 +17,8 @@ describe 'Run command line executable speedtest_init,' do
     describe 'using --option PATH,' do
       let (:base_dir) { '/tmp' }
       let (:speedtest) { "#{base_dir}/speedtest"}
-      let (:output_dir) { "#{base_dir}/speedtest/output" }
-      let (:cron_log_dir) { "#{base_dir}/speedtest/log" }
+      let (:output_dir) { "#{base_dir}/output" }
+      let (:cron_log_dir) { "#{base_dir}/log" }
       let (:dirs) { [speedtest, output_dir, cron_log_dir] }
       let (:set_current_directory) { Dir.chdir(base_dir) }
 

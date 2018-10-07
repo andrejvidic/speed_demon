@@ -3,9 +3,12 @@ require 'fileutils'
 
 describe SpeedTest::SaveData do
   describe 'for csv output,' do
-    let (:dir) { '/tmp/speedtest/output' }
-    let (:csv) { "#{dir}/speed_data.csv" }
-    let (:create_output_directory) { FileUtils.mkdir_p(dir) }
+    let (:base_dir) { '/tmp' }
+    let (:speedtest) { "#{base_dir}/speedtest"}
+    let (:output_dir) { "#{base_dir}/speedtest/output" }
+    let (:dirs) { [speedtest, output_dir] }
+    let (:csv) { "#{output_dir}/speed_data.csv" }
+    let (:create_output_directory) { FileUtils.mkdir_p(output_dir) }
 
     before do
       create_output_directory
@@ -13,7 +16,7 @@ describe SpeedTest::SaveData do
 
     after do
       # cleanup
-      FileUtils.rm_rf(dir) if File.directory?(dir)
+      dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir) }
     end
 
     it 'creates a csv file in the specified output directory' do

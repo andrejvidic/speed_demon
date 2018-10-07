@@ -21,7 +21,6 @@ OptionParser.new do |opt|
   opt.on('-l', '--log PATH', String, 'specify path for log directory') do |path|
     @custom[:log] = path
   end
-
 end.parse!
 
 @base_dir = ARGV[0] || Dir.pwd

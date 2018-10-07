@@ -14,32 +14,30 @@ describe 'Run command line executable speedtest_init,' do
   end
 
   describe 'allowing a user to specify location of the output & log directories,' do
-    describe 'using --option PATH,' do
-      let (:base_dir) { '/tmp' }
-      let (:speedtest) { "#{base_dir}/speedtest"}
-      let (:output_dir) { "#{base_dir}/output" }
-      let (:cron_log_dir) { "#{base_dir}/log" }
-      let (:dirs) { [speedtest, output_dir, cron_log_dir] }
-      let (:set_current_directory) { Dir.chdir(base_dir) }
+    let (:base_dir) { '/tmp' }
+    let (:speedtest) { "#{base_dir}/speedtest"}
+    let (:output_dir) { "#{base_dir}/output" }
+    let (:cron_log_dir) { "#{base_dir}/log" }
+    let (:dirs) { [speedtest, output_dir, cron_log_dir] }
+    let (:set_current_directory) { Dir.chdir(base_dir) }
 
-      before do
-        set_current_directory
-      end
+    before do
+      set_current_directory
+    end
 
-      after do
-        # cleanup
-        dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir) }
-      end
+    after do
+      # cleanup
+      dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir) }
+    end
 
-      it 'creates output directory at /tmp/output' do
-        system("speedtest_init --output #{output_dir}")
-        expect(File.directory?(output_dir)).to be true
-      end
+    it 'creates output directory at /tmp/output' do
+      system("speedtest_init --output #{output_dir}")
+      expect(File.directory?(output_dir)).to be true
+    end
 
-      it 'creates cron_log directory at /tmp/log' do
-        system("speedtest_init --log #{cron_log_dir}")
-        expect(File.directory?(cron_log_dir)).to be true
-      end
+    it 'creates cron_log directory at /tmp/log' do
+      system("speedtest_init --log #{cron_log_dir}")
+      expect(File.directory?(cron_log_dir)).to be true
     end
   end
 

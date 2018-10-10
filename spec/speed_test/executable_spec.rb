@@ -20,7 +20,10 @@ describe 'Run command line executable speedtest_init,' do
     let (:speedtest) { "#{base_dir}/speedtest"}
     let (:output_dir) { "#{base_dir}/output" }
     let (:cron_log_dir) { "#{base_dir}/log" }
+    let (:schedule_dir) { "#{base_dir}/schedule" }
     let (:dirs) { [speedtest, output_dir, cron_log_dir] }
+    let (:options) { { base_dir: base_dir, custom: { output: output_dir, log: cron_log_dir, schedule: schedule_dir } } }
+    let (:setup) { SpeedTest::Setup.new(options) }
     let (:set_current_directory) { Dir.chdir(base_dir) }
 
     before do
@@ -41,6 +44,11 @@ describe 'Run command line executable speedtest_init,' do
       it 'creates cron_log directory at /tmp/log' do
         system("speedtest_init --log #{cron_log_dir}")
         expect(File.directory?(cron_log_dir)).to be true
+      end
+
+      it 'creates schedule directory at /tmp/schedule' do
+        system("speedtest_init --schedule #{schedule_dir}")
+        expect(File.directory?(schedule_dir)).to be true
       end
     end
   end

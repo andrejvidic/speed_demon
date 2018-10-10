@@ -9,7 +9,7 @@ describe 'Run command line executable speedtest_init,' do
                            "    -h, --help                       Display this screen",
                            "    -o, --output PATH                specify path for output directory",
                            "    -l, --log PATH                   specify path for log directory",
-                           "    -s, --schedule PATH              specify path for schedule directory",
+                           "    -c, --cron PATH                  specify path for cron directory",
                            "    -f, --frequency TIME             specify logging frequency"))
         .to_stdout_from_any_process
     end
@@ -19,10 +19,10 @@ describe 'Run command line executable speedtest_init,' do
     let (:base_dir) { '/tmp' }
     let (:speedtest) { "#{base_dir}/speedtest"}
     let (:output_dir) { "#{base_dir}/output" }
-    let (:cron_log_dir) { "#{base_dir}/log" }
-    let (:schedule_dir) { "#{base_dir}/schedule" }
-    let (:dirs) { [speedtest, output_dir, cron_log_dir] }
-    let (:options) { { base_dir: base_dir, custom: { output: output_dir, log: cron_log_dir, schedule: schedule_dir } } }
+    let (:log_dir) { "#{base_dir}/log" }
+    let (:cron_dir) { "#{base_dir}/cron" }
+    let (:dirs) { [speedtest, output_dir, log_dir] }
+    let (:options) { { base_dir: base_dir, custom: { output: output_dir, log: log_dir, cron: cron_dir } } }
     let (:setup) { SpeedTest::Setup.new(options) }
     let (:set_current_directory) { Dir.chdir(base_dir) }
 
@@ -41,14 +41,14 @@ describe 'Run command line executable speedtest_init,' do
         expect(File.directory?(output_dir)).to be true
       end
 
-      it 'creates cron_log directory at /tmp/log' do
-        system("speedtest_init --log #{cron_log_dir}")
-        expect(File.directory?(cron_log_dir)).to be true
+      it 'creates log directory at /tmp/log' do
+        system("speedtest_init --log #{log_dir}")
+        expect(File.directory?(log_dir)).to be true
       end
 
-      it 'creates schedule directory at /tmp/schedule' do
-        system("speedtest_init --schedule #{schedule_dir}")
-        expect(File.directory?(schedule_dir)).to be true
+      it 'creates cron directory at /tmp/cron' do
+        system("speedtest_init --cron #{cron_dir}")
+        expect(File.directory?(cron_dir)).to be true
       end
     end
   end
@@ -58,8 +58,8 @@ describe 'Run command line executable speedtest_init,' do
       let (:base_dir) { '/tmp' }
       let (:speedtest) { "#{base_dir}/speedtest"}
       let (:output_dir) { "#{base_dir}/speedtest/output" }
-      let (:cron_log_dir) { "#{base_dir}/speedtest/log" }
-      let (:dirs) { [speedtest, output_dir, cron_log_dir] }
+      let (:log_dir) { "#{base_dir}/speedtest/log" }
+      let (:dirs) { [speedtest, output_dir, log_dir] }
       let (:set_current_directory) { Dir.chdir(base_dir) }
 
       before do
@@ -85,8 +85,8 @@ describe 'Run command line executable speedtest_init,' do
         let (:base_dir) { '/tmp' }
         let (:speedtest) { "#{base_dir}/speedtest"}
         let (:output_dir) { "#{base_dir}/speedtest/output" }
-        let (:cron_log_dir) { "#{base_dir}/speedtest/log" }
-        let (:dirs) { [speedtest, output_dir, cron_log_dir] }
+        let (:log_dir) { "#{base_dir}/speedtest/log" }
+        let (:dirs) { [speedtest, output_dir, log_dir] }
         let (:create_existing_directories) { dirs.each { |dir| FileUtils.mkdir_p(dir) } }
 
         before do
@@ -101,7 +101,7 @@ describe 'Run command line executable speedtest_init,' do
         it 'does not create a directory' do
           expect { system("speedtest_init #{base_dir}") }
             .to output(include("#{speedtest} exists, not created\n",
-                               "#{cron_log_dir} exists, not created\n",
+                               "#{log_dir} exists, not created\n",
                                "#{output_dir} exists, not created\n"))
             .to_stderr_from_any_process
         end

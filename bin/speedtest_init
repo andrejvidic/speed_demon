@@ -22,8 +22,8 @@ OptionParser.new do |opt|
     @custom[:log] = path
   end
 
-  opt.on('-s', '--schedule PATH', String, 'specify path for schedule directory') do |path|
-    @custom[:schedule] = path
+  opt.on('-c', '--cron PATH', String, 'specify path for cron directory') do |path|
+    @custom[:cron] = path
   end
 
   opt.on('-f', '--frequency TIME', String, 'specify logging frequency') do |time|

@@ -6,7 +6,7 @@ module SpeedTest
       @base = "#{options[:base_dir]}/speedtest"
       @output = options[:custom][:output] || "#{@base}/output"
       @log = options[:custom][:log] || "#{@base}/log"
-      @schedule = options[:custom][:schedule] || "#{@base}/schedule"
+      @cron = options[:custom][:cron] || "#{@base}/cron"
       @frequency = options[:custom][:frequency] || '15.minutes'
     end
 
@@ -22,27 +22,27 @@ module SpeedTest
     end
 
     def cron_create
-      File.open(schedule_file_name, "w") do |file|
-        file.write(schedule_file_contents)
+      File.open(cron_file_name, "w") do |file|
+        file.write(cron_file_contents)
         file.close
       end
     end
 
     def cron_start
-      system("whenever --load-file #{schedule_file_name}")
+      system("whenever --load-file #{cron_file_name}")
     end
 
     private
 
     def dirs
-      [] << @base << @output << @log << @schedule
+      [] << @base << @output << @log << @cron
     end
 
-    def schedule_file_name
-      "#{@schedule}/schedule.rb"
+    def cron_file_name
+      "#{@cron}/cron.rb"
     end
 
-    def schedule_file_contents
+    def cron_file_contents
 <<FILE
 # Use this file to easily define all of your cron jobs.
 # Learn more: http://github.com/javan/whenever

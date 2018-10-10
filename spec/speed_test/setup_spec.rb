@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'fileutils'
 
 RSpec.describe SpeedTest::Setup do
-  describe 'calling create_cron method,' do
+  describe 'calling directories,' do
     let (:base_dir) { '/tmp' }
     let (:speedtest) { "#{base_dir}/speedtest"}
     let (:config) { "#{speedtest}/config"}

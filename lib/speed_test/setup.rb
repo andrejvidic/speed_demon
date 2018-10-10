@@ -26,6 +26,9 @@ module SpeedTest
         file.close
       end
     end
+
+    def cron_start
+      system("whenever --load-file #{schedule_file_name}")
     end
 
     private

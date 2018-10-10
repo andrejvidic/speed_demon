@@ -8,7 +8,9 @@ describe 'Run command line executable speedtest_init,' do
         .to output(include("Usage: speedtest_init [options]",
                            "    -h, --help                       Display this screen",
                            "    -o, --output PATH                specify path for output directory",
-                           "    -l, --log PATH                   specify path for log directory"))
+                           "    -l, --log PATH                   specify path for log directory",
+                           "    -s, --schedule PATH              specify path for schedule directory",
+                           "    -f, --frequency TIME             specify logging frequency"))
         .to_stdout_from_any_process
     end
   end

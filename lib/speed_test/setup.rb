@@ -20,8 +20,12 @@ module SpeedTest
       end
     end
 
-    def create_cron
-      system("wheneverize #{@base}")
+    def cron_create
+      File.open(schedule_file_name, "w") do |file|
+        file.write(schedule_file_contents)
+        file.close
+      end
+    end
     end
 
     private

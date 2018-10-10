@@ -21,6 +21,14 @@ OptionParser.new do |opt|
   opt.on('-l', '--log PATH', String, 'specify path for log directory') do |path|
     @custom[:log] = path
   end
+
+  opt.on('-s', '--schedule PATH', String, 'specify path for schedule directory') do |path|
+    @custom[:schedule] = path
+  end
+
+  opt.on('-f', '--frequency TIME', String, 'specify logging frequency') do |time|
+    @custom[:frequency] = time
+  end
 end.parse!
 
 @base_dir = ARGV[0] || Dir.pwd

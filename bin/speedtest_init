@@ -32,5 +32,6 @@ OptionParser.new do |opt|
 end.parse!
 
 @base_dir = ARGV[0] || Dir.pwd
-
-SpeedTest::Setup.new(base_dir: @base_dir, custom: @custom).directories
+setup = SpeedTest::Setup.new(base_dir: @base_dir, custom: @custom)
+setup.directories
+setup.cron_create

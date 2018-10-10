@@ -7,6 +7,7 @@ module SpeedTest
       @output = options[:custom][:output] || "#{@base}/output"
       @log = options[:custom][:log] || "#{@base}/log"
       @schedule = options[:custom][:schedule] || "#{@base}/schedule"
+      @frequency = options[:custom][:frequency] || '15.minutes'
     end
 
     def directories

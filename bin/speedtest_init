@@ -1,37 +1,7 @@
 #!/usr/bin/env ruby
 
-require 'fileutils'
-require 'optparse'
 require_relative '../lib/speed_test'
 
-@custom = {}
-
-OptionParser.new do |opt|
-  opt.banner = 'Usage: speedtest_init [options]'
-
-  opt.on('-h', '--help', 'Display this screen') do
-    puts opt
-    exit
-  end
-
-  opt.on('-o', '--output PATH', String, 'specify path for output directory') do |path|
-    @custom[:output] = path
-  end
-
-  opt.on('-l', '--log PATH', String, 'specify path for log directory') do |path|
-    @custom[:log] = path
-  end
-
-  opt.on('-c', '--cron PATH', String, 'specify path for cron directory') do |path|
-    @custom[:cron] = path
-  end
-
-  opt.on('-f', '--frequency TIME', String, 'specify logging frequency') do |time|
-    @custom[:frequency] = time
-  end
-end.parse!
-
-@base_dir = ARGV[0] || Dir.pwd
-setup = SpeedTest::Setup.new(base_dir: @base_dir, custom: @custom)
+setup = SpeedTest::Setup.new(custom: SpeedTest::CLI.parse(ARGV))
 setup.directories
 setup.cron_create

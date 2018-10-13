@@ -3,7 +3,7 @@ require 'fileutils'
 module SpeedTest
   class Setup
     def initialize(options)
-      @base = "#{options[:base_dir]}/speedtest"
+      @base = "#{options[:custom][:base_dir]}/speedtest"
       @output = options[:custom][:output] || "#{@base}/output"
       @log = options[:custom][:log] || "#{@base}/log"
       @cron = options[:custom][:cron] || "#{@base}/cron"

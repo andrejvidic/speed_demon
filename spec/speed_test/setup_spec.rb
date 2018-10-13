@@ -9,11 +9,10 @@ RSpec.describe SpeedTest::Setup do
     let (:log_dir) { "#{speedtest}/log" }
     let (:cron_dir) { "#{speedtest}/cron" }
     let (:dirs) { [speedtest, output_dir, log_dir, cron_dir] }
-    let (:custom) { { output: output_dir, log: log_dir } }
-
+    let (:options) { { custom: { base_dir: base_dir, output: output_dir, log: log_dir } } }
     before do
       Dir.chdir(base_dir) # set_current_directory
-      SpeedTest::Setup.new(base_dir: base_dir, custom: custom).directories # create_directories
+      SpeedTest::Setup.new(options).directories # create_directories
     end
 
     after do
@@ -41,7 +40,7 @@ RSpec.describe SpeedTest::Setup do
     let (:output_dir) { "#{base_dir}/output" }
     let (:log_dir) { "#{base_dir}/log" }
     let (:dirs) { [speedtest, output_dir, log_dir, cron_dir] }
-    let (:options) { { base_dir: base_dir, custom: { output: output_dir, log: log_dir } } }
+    let (:options) { { custom: { base_dir: base_dir, output: output_dir, log: log_dir } } }
     let (:whenever) { 'whenever gem called' }
     let (:setup) { SpeedTest::Setup.new(options) }
     let (:default_frequency) { '15.minutes' }

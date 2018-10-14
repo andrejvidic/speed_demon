@@ -51,7 +51,7 @@ module SpeedTest
 set :output, "#{@log}/cron.log"
 
 every #{@frequency} do
-  command 'ruby speed_test_check'
+  command 'ruby speedtest_check'
 end
 FILE
     end

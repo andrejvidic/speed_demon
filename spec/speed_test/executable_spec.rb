@@ -7,10 +7,11 @@ describe 'Run command line executable speedtest_init,' do
       expect { system('speedtest_init -h') }
         .to output(include("Usage: speedtest_init [options]",
                            "    -h, --help                       Display this screen",
-                           "    -o, --output PATH                specify path for output directory",
-                           "    -l, --log PATH                   specify path for log directory",
-                           "    -c, --cron PATH                  specify path for cron directory",
-                           "    -f, --frequency TIME             specify logging frequency"))
+                           "    -s, --setup-default              specify true/false, yes/no to setup speedtest to default directories",
+                           "    -o, --custom-output PATH         specify custom path for output directory",
+                           "    -l, --custom-log PATH            specify custom path for log directory",
+                           "    -c, --custom-cron PATH           specify custom path for cron directory",
+                           "    -f, --custom-frequency TIME      specify custom speedtest measuring frequency"))
         .to_stdout_from_any_process
     end
   end

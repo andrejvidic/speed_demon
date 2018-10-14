@@ -10,9 +10,9 @@ module SpeedTest
 
     def initialize(options)
       @base = "#{options[:base_dir]}/speedtest"
-      @output = options[:output] || "#{@base}/output"
-      @log = options[:log] || "#{@base}/log"
-      @cron = options[:cron] || "#{@base}/cron"
+      @output = options[:output] || "~/.local/share/speedtest/output"
+      @log = options[:log] || "~/.speedtest/log"
+      @cron = options[:cron] || "~/.config/speedtest/cron"
       @frequency = options[:frequency] || '15.minutes'
     end
 

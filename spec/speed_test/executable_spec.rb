@@ -82,10 +82,26 @@ FILE
     describe 'without specifying a path or CLI options,' do
       let (:base_dir) { '/tmp' }
       let (:speedtest) { "#{base_dir}/speedtest"}
-      let (:output_dir) { "#{base_dir}/speedtest/output" }
-      let (:log_dir) { "#{base_dir}/speedtest/log" }
-      let (:dirs) { [speedtest, output_dir, log_dir] }
+      let (:output_dir) { "#{speedtest}/output" }
+      let (:log_dir) { "#{speedtest}/log" }
+      let (:cron_dir) { "#{speedtest}/cron"}
+      let (:cron_file) { "#{speedtest}/cron/cron.rb"}      
+      let (:dirs) { [speedtest, output_dir, log_dir, cron_dir] }
       let (:set_current_directory) { Dir.chdir(base_dir) }
+    let (:default_frequency) { '15.minutes' }
+    let (:default_cron_file_contents) do
+<<FILE
+# Use this file to easily define all of your cron jobs.
+# Learn more: http://github.com/javan/whenever
+#
+
+set :output, "#{log_dir}/cron.log"
+
+every #{default_frequency} do
+  command 'ruby speedtest_check'
+end
+FILE
+    end
 
       before do
         set_current_directory

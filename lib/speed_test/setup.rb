@@ -2,6 +2,12 @@ require 'fileutils'
 
 module SpeedTest
   class Setup
+    def self.execute(options)
+      setup = new(options)
+      setup.directories
+      setup.cron_create
+    end
+
     def initialize(options)
       @base = "#{options[:base_dir]}/speedtest"
       @output = options[:output] || "#{@base}/output"

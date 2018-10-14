@@ -27,7 +27,6 @@ describe 'Run command line executable speedtest_init,' do
                        output: custom_output_dir,
                        log: custom_log_dir,
                        cron: custom_cron_dir } }
-    let (:setup) { SpeedTest::Setup.new(options) }
     let (:set_current_directory) { Dir.chdir(base_dir) }
     let (:frequency_1hr) { ':hour' }
     let (:custom_cron_file_contents) do

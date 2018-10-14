@@ -3,35 +3,76 @@ require 'fileutils'
 
 module SpeedTest
   class CLI
-    def self.parse(options)
-      @custom = {}
-      opt_parser = OptionParser.new do |opt|
-        opt.banner = 'Usage: speedtest_init [options]'
+    def self.parse(args)
+      @options = ScriptOptions.new
+      OptionParser.new do |parser|
+        @options.define_options(parser)
+        parser.parse!(args)
+      end
+      @options
+    end
 
-        opt.on('-h', '--help', 'Display this screen') do
-          puts opt
+    class ScriptOptions
+      attr_accessor :default, :output, :log, :cron, :frequency, :setup_options
+
+      def initialize
+        self.setup_options = false
+      end
+
+      def define_options(parser)
+        parser.banner = 'Usage: speedtest_init [options]'
+
+        display_help(parser)
+
+        # CLI parse options
+        setup_default(parser)
+        custom_output_path(parser)
+        custom_log_path(parser)
+        custom_cron_path(parser)
+        custom_frequency(parser)
+      end
+
+      def display_help(parser)
+        parser.on('-h', '--help', 'Display this screen') do
+          puts parser
           exit
         end
+      end
 
-        opt.on('-o', '--output PATH', String, 'specify path for output directory') do |path|
-          @custom[:output] = path
-        end
-
-        opt.on('-l', '--log PATH', String, 'specify path for log directory') do |path|
-          @custom[:log] = path
-        end
-
-        opt.on('-c', '--cron PATH', String, 'specify path for cron directory') do |path|
-          @custom[:cron] = path
-        end
-
-        opt.on('-f', '--frequency TIME', String, 'specify logging frequency') do |time|
-          @custom[:frequency] = time
+      def setup_default(parser)
+        parser.on('-s', '--setup-default', TrueClass, 'specify true/false, yes/no to setup speedtest to default directories') do |boolean|
+          self.default = boolean
+          self.setup_options = true
         end
       end
-      opt_parser.parse!(options)
-      @custom[:base_dir] = ARGV[0] || Dir.pwd # If it exists, ARGV remains is user's chosen setup path
-      @custom
+
+      def custom_output_path(parser)
+        parser.on('-o', '--custom-output PATH', String, 'specify custom path for output directory') do |path|
+          self.output = path
+          self.setup_options = true          
+        end
+      end
+
+      def custom_log_path(parser)
+        parser.on('-l', '--custom-log PATH', String, 'specify custom path for log directory') do |path|
+          self.log = path
+          self.setup_options = true          
+        end
+      end
+
+      def custom_cron_path(parser)
+        parser.on('-c', '--custom-cron PATH', String, 'specify custom path for cron directory') do |path|
+          self.cron = path
+          self.setup_options = true          
+        end
+      end
+
+      def custom_frequency(parser)
+        parser.on('-f', '--custom-frequency TIME', String, 'specify custom speedtest measuring frequency') do |time|
+          self.frequency = time
+          self.setup_options = true
+        end
+      end
     end
   end
 end

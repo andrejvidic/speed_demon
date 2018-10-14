@@ -15,7 +15,7 @@ describe 'Run command line executable speedtest_init,' do
     end
   end
 
-  describe 'allow a user to specify CLI options,' do
+  describe 'CLI options,' do
     let (:base_dir) { '/tmp' }
     let (:speedtest) { "#{base_dir}/speedtest"}
     let (:custom_output_dir) { "#{base_dir}/output" }
@@ -96,17 +96,26 @@ FILE
         dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir) }
       end
 
-      it 'creates all speedtest directories using default locations for the output & log directories' do
+      it 'creates all speedtest directories using default locations' do
         system('speedtest_init')
         dirs.each do |dir|
           expect(File.directory?(dir)).to be true
         end
       end
+
+      it 'creates cron.rb schedule file' do
+        system('speedtest_init')
+        expect(File.exist?(cron_file)).to be true
+      end
+
+      it 'creates cron.rb schedule file with default contents' do
+        system('speedtest_init')
+        expect(File.read(cron_file)).to eq(default_cron_file_contents)
+      end
     end
 
     describe 'if speedtest directories already exists,' do
       describe 'print warning messages,' do
-
         let (:base_dir) { '/tmp' }
         let (:speedtest) { "#{base_dir}/speedtest"}
         let (:output_dir) { "#{base_dir}/speedtest/output" }

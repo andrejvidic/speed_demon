@@ -80,11 +80,11 @@ FILE
   describe 'from a directory, /tmp directory for example,' do
     describe 'without specifying a path or CLI options,' do
       let (:base_dir) { '/tmp' }
-      let (:speedtest) { "#{base_dir}/speedtest"}
-      let (:output_dir) { "#{speedtest}/output" }
-      let (:log_dir) { "#{speedtest}/log" }
-      let (:cron_dir) { "#{speedtest}/cron"}
-      let (:cron_file) { "#{speedtest}/cron/cron.rb"}      
+      let (:speedtest) { "#{base_dir}/speedtest" }
+      let (:output_dir) { "~/.local/share/speedtest/output" }
+      let (:log_dir) { "~/.speedtest/log" }
+      let (:cron_dir) { "~/.config/speedtest/cron" }
+      let (:cron_file) { "#{cron_dir}/cron.rb" }
       let (:dirs) { [speedtest, output_dir, log_dir, cron_dir] }
       let (:set_current_directory) { Dir.chdir(base_dir) }
     let (:default_frequency) { '15.minutes' }
@@ -133,9 +133,10 @@ FILE
       describe 'print warning messages,' do
         let (:base_dir) { '/tmp' }
         let (:speedtest) { "#{base_dir}/speedtest"}
-        let (:output_dir) { "#{base_dir}/speedtest/output" }
-        let (:log_dir) { "#{base_dir}/speedtest/log" }
-        let (:dirs) { [speedtest, output_dir, log_dir] }
+        let (:output_dir) { "~/.local/share/speedtest/output" }
+        let (:log_dir) { "~/.speedtest/log" }
+        let (:cron_dir) { "~/.config/speedtest/cron" }
+        let (:dirs) { [speedtest, output_dir, log_dir, cron_dir] }
         let (:create_existing_directories) { dirs.each { |dir| FileUtils.mkdir_p(dir) } }
 
         before do

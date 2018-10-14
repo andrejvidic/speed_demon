@@ -2,4 +2,11 @@
 
 require_relative '../lib/speed_test'
 
-SpeedTest::Setup.execute(SpeedTest::CLI.parse(ARGV))
+cli = SpeedTest::CLI.parse(ARGV)
+
+if cli.setup_options
+  SpeedTest::Setup.execute(cli)
+else
+  warn "Speedtest CLI received no options!"
+  system('speedtest_init -h')
+end

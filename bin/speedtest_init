@@ -2,6 +2,4 @@
 
 require_relative '../lib/speed_test'
 
-setup = SpeedTest::Setup.new(SpeedTest::CLI.parse(ARGV))
-setup.directories
-setup.cron_create
+SpeedTest::Setup.execute(SpeedTest::CLI.parse(ARGV))

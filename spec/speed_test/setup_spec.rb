@@ -53,7 +53,7 @@ RSpec.describe SpeedTest::Setup do
 set :output, "#{log_dir}/cron.log"
 
 every #{default_frequency} do
-  command 'ruby speed_test_check'
+  command 'ruby speedtest_check'
 end
 FILE
     end

@@ -39,7 +39,7 @@ describe 'Run command line executable speedtest_init,' do
 set :output, "#{custom_log_dir}/cron.log"
 
 every #{frequency_1hr} do
-  command 'ruby speed_test_check'
+  command 'ruby speedtest_check'
 end
 FILE
     end

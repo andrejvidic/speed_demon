@@ -3,11 +3,11 @@ require 'fileutils'
 module SpeedTest
   class Setup
     def initialize(options)
-      @base = "#{options[:custom][:base_dir]}/speedtest"
-      @output = options[:custom][:output] || "#{@base}/output"
-      @log = options[:custom][:log] || "#{@base}/log"
-      @cron = options[:custom][:cron] || "#{@base}/cron"
-      @frequency = options[:custom][:frequency] || '15.minutes'
+      @base = "#{options[:base_dir]}/speedtest"
+      @output = options[:output] || "#{@base}/output"
+      @log = options[:log] || "#{@base}/log"
+      @cron = options[:cron] || "#{@base}/cron"
+      @frequency = options[:frequency] || '15.minutes'
     end
 
     def directories

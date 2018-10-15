@@ -2,18 +2,17 @@ require 'fileutils'
 
 module SpeedTest
   class Setup
-    def self.execute(options)
-      setup = new(options)
+    def self.execute(cli)
+      setup = new(cli)
       setup.directories
       setup.cron_create
     end
 
-    def initialize(options)
-      @base = "#{options[:base_dir]}/speedtest"
-      @output = options[:output] || "~/.local/share/speedtest/output"
-      @log = options[:log] || "~/.speedtest/log"
-      @cron = options[:cron] || "~/.config/speedtest/cron"
-      @frequency = options[:frequency] || '15.minutes'
+    def initialize(cli)
+      @output = cli.output || "~/.local/share/speedtest/output"
+      @log = cli.log || "~/.speedtest/log"
+      @cron = cli.cron || "~/.config/speedtest/cron"
+      @frequency = cli.frequency || '15.minutes'
     end
 
     def directories
@@ -41,7 +40,7 @@ module SpeedTest
     private
 
     def dirs
-      [] << @base << @output << @log << @cron
+      [] << @output << @log << @cron
     end
 
     def cron_file_name

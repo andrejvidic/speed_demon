@@ -2,17 +2,19 @@ require 'spec_helper'
 require 'fileutils'
 
 describe 'Run command line executable speedtest_init,' do
-  describe 'with the -h or --help flag,' do
+  describe 'with no flags or options,' do
     it 'prints the help menu to STDOUT' do
-      expect { system('speedtest_init -h') }
-        .to output(include("Usage: speedtest_init [options]",
-                           "    -h, --help                       Display this screen",
-                           "    -s, --setup-default              specify true/false, yes/no to setup speedtest to default directories",
-                           "    -o, --custom-output PATH         specify custom path for output directory",
-                           "    -l, --custom-log PATH            specify custom path for log directory",
-                           "    -c, --custom-cron PATH           specify custom path for cron directory",
-                           "    -f, --custom-frequency TIME      specify custom speedtest measuring frequency"))
-        .to_stdout_from_any_process
+      expect { system('speedtest_init') }
+        .to output(
+          include('Usage: speedtest_init [options]',
+                  '-h, --help                   Display this screen',
+                  '-m, --measure-speed          Measure internet speed and save it',
+                  '-s, --setup-default          Setup speedtest with default directories',
+                  '-o, --custom-output PATH     Override the default output directory with custom',
+                  '-l, --custom-log PATH        Override the default log directory with custom',
+                  '-c, --custom-cron PATH       Override the default cron directory with custom',
+                  '-f, --custom-frequency TIME  Override the default measuring frequency with custom')
+        ).to_stdout_from_any_process
     end
   end
 

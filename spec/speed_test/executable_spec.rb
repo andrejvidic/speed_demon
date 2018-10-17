@@ -9,11 +9,11 @@ describe 'Run command line executable speedtest_init,' do
           include("Usage: speedtest_init [options]",
                   "-h, --help                       Display this screen",
                   "-m, --measure-speed              Measure internet speed and save it",
-                  "-s, --setup-default              Setup speedtest with default directories",
-                  "-o, --custom-output PATH         Override the default output directory with custom",
-                  "-l, --custom-log PATH            Override the default log directory with custom",
-                  "-c, --custom-cron PATH           Override the default cron directory with custom",
-                  "-f, --custom-frequency TIME      Override the default measuring frequency with custom")
+                  "-s, --setup-default              Setup speedtest directories using defaults",
+                  "-o, --custom-output PATH         Override the default output directory with a custom",
+                  "-l, --custom-log PATH            Override the default log directory with a custom",
+                  "-c, --custom-cron PATH           Override the default cron directory with a custom",
+                  "-f, --custom-frequency TIME      Override the default measuring frequency with a custom")
         ).to_stdout_from_any_process
     end
   end
@@ -118,19 +118,19 @@ FILE
     end
 
     it 'creates all speedtest directories using default locations' do
-      system('speedtest_init --setup-default true')
+      system('speedtest_init --setup-default')
       dirs.each do |dir|
         expect(File.directory?(dir)).to be true
       end
     end
 
     it 'creates cron.rb schedule file' do
-      system('speedtest_init --setup-default true')
+      system('speedtest_init --setup-default')
       expect(File.exist?(default_cron_file)).to be true
     end
 
     it 'creates cron.rb schedule file with default contents' do
-      system('speedtest_init --setup-default true')
+      system('speedtest_init --setup-default')
       expect(File.read(default_cron_file)).to eq(default_cron_file_contents)
     end
   end
@@ -153,7 +153,7 @@ FILE
       end
 
       it 'does not recreate existing directories' do
-        expect { system("speedtest_init --setup-default true") }
+        expect { system("speedtest_init --setup-default") }
           .to output(include("#{cron_dir} exists, not created\n",
                              "#{log_dir} exists, not created\n",
                              "#{output_dir} exists, not created\n"))

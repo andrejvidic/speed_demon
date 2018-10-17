@@ -42,13 +42,13 @@ module SpeedTest
       end
 
       def measure_speed(parser)
-        parser.on('-m', '--measure-speed', TrueClass, 'Measure internet speed and save it') do |path|
-          self.measure = true          
+        parser.on('-m', '--measure-speed', 'Measure internet speed and save it') do
+          self.measure = true
         end
       end
 
       def setup_default(parser)
-        parser.on('-s', '--setup-default', TrueClass, 'Setup speedtest with default directories') do |boolean|
+        parser.on('-s', '--setup-default', 'Setup speedtest with default directories') do
           self.setup = true
         end
       end

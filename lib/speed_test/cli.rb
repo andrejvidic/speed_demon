@@ -48,34 +48,34 @@ module SpeedTest
       end
 
       def setup_default(parser)
-        parser.on('-s', '--setup-default', 'Setup speedtest with default directories') do
+        parser.on('-s', '--setup-default', 'Setup speedtest directories using defaults') do
           self.setup = true
         end
       end
 
       def custom_output_path(parser)
-        parser.on('-o', '--custom-output PATH', String, 'Override the default output directory with custom') do |path|
+        parser.on('-o', '--custom-output PATH', String, 'Override the default output directory with a custom') do |path|
           self.output = path
           self.setup = true
         end
       end
 
       def custom_log_path(parser)
-        parser.on('-l', '--custom-log PATH', String, 'Override the default log directory with custom') do |path|
+        parser.on('-l', '--custom-log PATH', String, 'Override the default log directory with a custom') do |path|
           self.log = path
           self.setup = true
         end
       end
 
       def custom_cron_path(parser)
-        parser.on('-c', '--custom-cron PATH', String, 'Override the default cron directory with custom') do |path|
+        parser.on('-c', '--custom-cron PATH', String, 'Override the default cron directory with a custom') do |path|
           self.cron = path
           self.setup = true
         end
       end
 
       def custom_frequency(parser)
-        parser.on('-f', '--custom-frequency TIME', String, 'Override the default measuring frequency with custom') do |time|
+        parser.on('-f', '--custom-frequency TIME', String, 'Override the default measuring frequency with a custom') do |time|
           self.frequency = time
           self.setup = true
         end

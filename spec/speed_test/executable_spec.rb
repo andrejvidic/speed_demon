@@ -17,7 +17,9 @@ describe 'Run command line executable speedtest_init,' do
         ).to_stdout_from_any_process
     end
   end
+end
 
+describe 'Run command line executable speedtest_init,' do
   describe 'supplying at least one custom option,' do
     let (:base_dir) { '/tmp' }
     let (:custom_output_dir) { "#{base_dir}/output" }
@@ -87,8 +89,10 @@ FILE
       end
     end
   end
+end
 
-  describe 'supplying CLI flag --setup-default=true,' do
+describe 'Run command line executable speedtest_init,' do
+  describe 'supplying CLI flag --setup-default,' do
     let (:base_dir) { '/tmp' }
     let (:default_output_dir) { "~/.local/share/speedtest/output" }
     let (:default_log_dir) { "~/.speedtest/log" }

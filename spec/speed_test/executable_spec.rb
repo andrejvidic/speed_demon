@@ -97,6 +97,7 @@ describe 'Run command line executable speedtest_init,' do
     let (:default_output_dir) { "~/.local/share/speedtest/output" }
     let (:default_log_dir) { "~/.speedtest/log" }
     let (:default_cron_dir) { "~/.config/speedtest/cron" }
+    let (:default_directories_file) { "~/.config/speedtest/directories" }
     let (:default_cron_file) { "#{default_cron_dir}/cron.rb" }
     let (:dirs) { [default_output_dir,
                    default_log_dir,
@@ -126,6 +127,11 @@ FILE
       dirs.each do |dir|
         expect(File.directory?(dir)).to be true
       end
+    end
+
+    it 'in the specified (default in this case) location a config file called directories exists' do
+      system('speedtest_init --setup-default')
+      expect(File.exist?(default_directories_file)).to be true
     end
 
     it 'creates cron.rb schedule file' do

@@ -5,13 +5,13 @@ module SpeedTest
     def self.execute(cli)
       setup = new(cli)
       setup.directories
-      setup.cron_create
+      setup.cron
     end
 
     def initialize(cli)
       @output = cli.output || "~/.local/share/speedtest/output"
       @log = cli.log || "~/.speedtest/log"
-      @cron = cli.cron || "~/.config/speedtest/cron"
+      @config = cli.config || "~/.config/speedtest"
       @frequency = cli.frequency || '15.minutes'
     end
 
@@ -26,12 +26,12 @@ module SpeedTest
       end
     end
 
-    def cron_create
+    def cron
       File.open(cron_file_name, "w") do |file|
         file.write(cron_file_contents)
         file.close
       end
-    end
+    end    
 
     def cron_start
       system("whenever --load-file #{cron_file_name}")
@@ -40,11 +40,11 @@ module SpeedTest
     private
 
     def dirs
-      [] << @output << @log << @cron
+      [] << @output << @log << @config
     end
 
     def cron_file_name
-      "#{@cron}/cron.rb"
+      File.expand_path("#{@config}/cron.rb")
     end
 
     def cron_file_contents

@@ -11,9 +11,9 @@ module SpeedTest
     end
 
     def initialize(cli)
-      @output = cli.output || "~/.local/share/speedtest/output"
-      @log = cli.log || "~/.speedtest/log"
-      @config = cli.config || "~/.config/speedtest"
+      @output = File.expand_path(cli.output || "~/.local/share/speedtest/output")
+      @log = File.expand_path(cli.log || "~/.speedtest/log")
+      @config = File.expand_path(cli.config || "~/.config/speedtest")
       @frequency = cli.frequency || '15.minutes'
     end
 

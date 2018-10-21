@@ -13,7 +13,7 @@ module SpeedTest
     end
 
     class ScriptOptions
-      attr_accessor :setup, :measure, :output, :log, :config, :frequency
+      attr_accessor :setup, :measure, :output, :log, :frequency
 
       def initialize
         self.setup = false
@@ -30,7 +30,6 @@ module SpeedTest
         setup_default(parser)
         custom_output_path(parser)
         custom_log_path(parser)
-        custom_config_path(parser)
         custom_frequency(parser)
       end
 
@@ -63,13 +62,6 @@ module SpeedTest
       def custom_log_path(parser)
         parser.on('-l', '--custom-log PATH', String, 'Override the default log directory with a custom') do |path|
           self.log = path
-          self.setup = true
-        end
-      end
-
-      def custom_config_path(parser)
-        parser.on('-c', '--custom-config PATH', String, 'Override the default config directory with a custom') do |path|
-          self.config = path
           self.setup = true
         end
       end

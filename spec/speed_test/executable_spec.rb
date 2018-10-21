@@ -26,16 +26,13 @@ describe 'Run command line executable speedtest_init,' do
     let (:default_output_dir) { File.expand_path("~/.local/share/speedtest") }
     let (:custom_log_dir) { File.expand_path("#{base_dir}/log") }
     let (:default_log_dir) { File.expand_path("~/.speedtest") }
-    let (:custom_config_dir) { File.expand_path("#{base_dir}/config") }
     let (:default_config_dir) { File.expand_path("~/.config/speedtest") }
-    let (:custom_config_file) { File.expand_path("#{custom_config_dir}/cron.rb") }
     let (:default_cron_file) { File.expand_path("#{default_config_dir}/cron.rb") }
     let (:dirs) { [default_output_dir,
                    custom_output_dir,
                    default_log_dir,
                    custom_log_dir,
-                   default_config_dir,
-                   custom_config_dir] }
+                   default_config_dir] }
     let (:frequency_1hr) { ':hour' }
     let (:custom_cron_file_contents) do
 <<FILE
@@ -69,13 +66,6 @@ FILE
         expect(File.directory?(custom_log_dir)).to be true
         expect(File.directory?(default_output_dir)).to be true
         expect(File.directory?(default_config_dir)).to be true
-      end
-
-      it 'creates config directory at /tmp/config but all other directories are at default locations' do
-        system("speedtest_init --custom-config #{custom_config_dir}")
-        expect(File.directory?(default_log_dir)).to be true
-        expect(File.directory?(default_output_dir)).to be true
-        expect(File.directory?(custom_config_dir)).to be true
       end
     end
 

@@ -77,10 +77,10 @@ FILE
     def settings_file_contents
 <<FILE
 ---
-output: @output,
-log: @log,
-config: @config
-frequency: @frequency
+output: #{@output},
+log: #{@log},
+config: #{@config}
+frequency: #{@frequency}
 FILE
     end
   end

@@ -93,13 +93,12 @@ end
 
 describe 'Run command line executable speedtest_init,' do
   describe 'supplying CLI flag --setup-default,' do
-    let (:base_dir) { '/tmp' }
-    let (:default_output_dir) { "~/.local/share/speedtest/output" }
-    let (:default_log_dir) { "~/.speedtest/log" }
-    let (:default_config_dir) { "~/.config/speedtest" }
-    let (:default_dir_list) { "#{default_config_dir}/dir_list" }
-    let (:default_directories_file) { "~/.config/speedtest/dir_list" }
-    let (:default_cron_file) { "#{default_config_dir}/cron.rb" }
+    let (:base_dir) { File.expand_path('/tmp') }
+    let (:default_output_dir) { File.expand_path("~/.local/share/speedtest/output") }
+    let (:default_log_dir) { File.expand_path("~/.speedtest/log") }
+    let (:default_config_dir) { File.expand_path("~/.config/speedtest") }
+    let (:default_cron_file) { File.expand_path("#{default_config_dir}/cron.rb") }
+    let (:default_settings_file) { File.expand_path("#{default_config_dir}/settings.yaml") }    
     let (:dirs) { [default_output_dir,
                    default_log_dir,
                    default_config_dir] }
@@ -132,7 +131,7 @@ FILE
 
     it 'creates a config file called dir_list' do
       system('speedtest_init --setup-default')
-      expect(File.exist?(default_directories_file)).to be true
+      expect(File.exist?(default_settings_file)).to be true
     end
 
     it 'creates cron.rb schedule file' do
@@ -148,10 +147,12 @@ FILE
 
   describe 'if speedtest directories already exists,' do
     describe 'print warning messages,' do
-      let (:output_dir) { "~/.local/share/speedtest/output" }
-      let (:log_dir) { "~/.speedtest/log" }
-      let (:config_dir) { "~/.config/speedtest" }
-      let (:dirs) { [output_dir, log_dir, cron_dir] }
+    let (:default_output_dir) { File.expand_path("~/.local/share/speedtest/output") }
+    let (:default_log_dir) { File.expand_path("~/.speedtest/log") }
+    let (:default_config_dir) { File.expand_path("~/.config/speedtest") }
+    let (:dirs) { [default_output_dir,
+                   default_log_dir,
+                   default_config_dir] }
       let (:create_existing_directories) { dirs.each { |dir| FileUtils.mkdir_p(dir) } }
 
       before do
@@ -165,9 +166,9 @@ FILE
 
       it 'does not recreate existing directories' do
         expect { system("speedtest_init --setup-default") }
-          .to output(include("#{config_dir} exists, not created\n",
-                             "#{log_dir} exists, not created\n",
-                             "#{output_dir} exists, not created\n"))
+          .to output(include("#{default_config_dir} exists, not created\n",
+                             "#{default_log_dir} exists, not created\n",
+                             "#{default_output_dir} exists, not created\n"))
           .to_stderr_from_any_process
       end
     end

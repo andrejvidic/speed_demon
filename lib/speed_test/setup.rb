@@ -71,7 +71,7 @@ FILE
     end
 
     def settings_file_name
-      File.expand_path("#{@config}/settings.yml")
+      File.expand_path("#{@config}/settings.yaml")
     end
 
     def settings_file_contents

@@ -12,7 +12,6 @@ describe 'Run command line executable speedtest_init,' do
                   "-s, --setup-default              Setup speedtest directories using defaults",
                   "-o, --custom-output PATH         Override the default output directory with a custom",
                   "-l, --custom-log PATH            Override the default log directory with a custom",
-                  "-c, --custom-config PATH         Override the default config directory with a custom",
                   "-f, --custom-frequency TIME      Override the default measuring frequency with a custom")
         ).to_stdout_from_any_process
     end

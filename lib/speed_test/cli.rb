@@ -13,7 +13,7 @@ module SpeedTest
     end
 
     class ScriptOptions
-      attr_accessor :setup, :measure, :output, :log, :cron, :frequency
+      attr_accessor :setup, :measure, :output, :log, :config, :frequency
 
       def initialize
         self.setup = false
@@ -30,7 +30,7 @@ module SpeedTest
         setup_default(parser)
         custom_output_path(parser)
         custom_log_path(parser)
-        custom_cron_path(parser)
+        custom_config_path(parser)
         custom_frequency(parser)
       end
 
@@ -67,9 +67,9 @@ module SpeedTest
         end
       end
 
-      def custom_cron_path(parser)
-        parser.on('-c', '--custom-cron PATH', String, 'Override the default cron directory with a custom') do |path|
-          self.cron = path
+      def custom_config_path(parser)
+        parser.on('-c', '--custom-config PATH', String, 'Override the default config directory with a custom') do |path|
+          self.config = path
           self.setup = true
         end
       end

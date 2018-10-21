@@ -124,6 +124,7 @@ FILE
 output: #{default_output_dir},
 log: #{default_log_dir},
 config: #{default_config_dir}
+frequency: #{default_frequency}
 FILE
     end
 

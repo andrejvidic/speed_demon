@@ -80,6 +80,7 @@ FILE
 output: @output,
 log: @log,
 config: @config
+frequency: @frequency
 FILE
     end
   end

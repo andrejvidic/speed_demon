@@ -117,6 +117,16 @@ every #{default_frequency} do
 end
 FILE
     end
+
+    let (:default_settings_file_contents) do
+<<FILE
+---
+output: #{default_output_dir},
+log: #{default_log_dir},
+config: #{default_config_dir}
+FILE
+    end
+
     after do
       # cleanup
       dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir) }
@@ -132,6 +142,11 @@ FILE
     it 'creates a config file called settings.yaml' do
       system('speedtest_init --setup-default')
       expect(File.exist?(default_settings_file)).to be true
+    end
+
+    it 'creates settings.yaml with default contents' do
+      system('speedtest_init --setup-default')
+      expect(File.read(default_settings_file)).to eq(default_settings_file_contents)
     end
 
     it 'creates cron.rb schedule file' do

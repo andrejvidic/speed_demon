@@ -12,7 +12,7 @@ describe 'Run command line executable speedtest_init,' do
                   "-s, --setup-default              Setup speedtest directories using defaults",
                   "-o, --custom-output PATH         Override the default output directory with a custom",
                   "-l, --custom-log PATH            Override the default log directory with a custom",
-                  "-c, --custom-cron PATH           Override the default cron directory with a custom",
+                  "-c, --custom-config PATH         Override the default config directory with a custom",
                   "-f, --custom-frequency TIME      Override the default measuring frequency with a custom")
         ).to_stdout_from_any_process
     end
@@ -21,21 +21,21 @@ end
 
 describe 'Run command line executable speedtest_init,' do
   describe 'supplying at least one custom option,' do
-    let (:base_dir) { '/tmp' }
-    let (:custom_output_dir) { "#{base_dir}/output" }
-    let (:default_output_dir) { "~/.local/share/speedtest/output" }
-    let (:custom_log_dir) { "#{base_dir}/log" }
-    let (:default_log_dir) { "~/.speedtest/log" }
-    let (:custom_cron_dir) { "#{base_dir}/cron" }
-    let (:default_cron_dir) { "~/.config/speedtest/cron" }
-    let (:custom_cron_file) { "#{custom_cron_dir}/cron.rb" }
-    let (:default_cron_file) { "#{default_cron_dir}/cron.rb" }
+    let (:base_dir) { File.expand_path('/tmp') }
+    let (:custom_output_dir) { File.expand_path("#{base_dir}/output") }
+    let (:default_output_dir) { File.expand_path("~/.local/share/speedtest/output") }
+    let (:custom_log_dir) { File.expand_path("#{base_dir}/log") }
+    let (:default_log_dir) { File.expand_path("~/.speedtest/log") }
+    let (:custom_config_dir) { File.expand_path("#{base_dir}/config") }
+    let (:default_config_dir) { File.expand_path("~/.config/speedtest") }
+    let (:custom_config_file) { File.expand_path("#{custom_config_dir}/cron.rb") }
+    let (:default_cron_file) { File.expand_path("#{default_config_dir}/cron.rb") }
     let (:dirs) { [default_output_dir,
                    custom_output_dir,
                    default_log_dir,
                    custom_log_dir,
-                   default_cron_dir,
-                   custom_cron_dir] }
+                   default_config_dir,
+                   custom_config_dir] }
     let (:frequency_1hr) { ':hour' }
     let (:custom_cron_file_contents) do
 <<FILE
@@ -61,21 +61,21 @@ FILE
         system("speedtest_init --custom-output #{custom_output_dir}")
         expect(File.directory?(custom_output_dir)).to be true
         expect(File.directory?(default_log_dir)).to be true
-        expect(File.directory?(default_cron_dir)).to be true        
+        expect(File.directory?(default_config_dir)).to be true
       end
 
       it 'creates log directory at /tmp/log but all other directories are at default locations' do
         system("speedtest_init --custom-log #{custom_log_dir}")
         expect(File.directory?(custom_log_dir)).to be true
         expect(File.directory?(default_output_dir)).to be true
-        expect(File.directory?(default_cron_dir)).to be true
+        expect(File.directory?(default_config_dir)).to be true
       end
 
-      it 'creates cron directory at /tmp/cron but all other directories are at default locations' do
-        system("speedtest_init --custom-cron #{custom_cron_dir}")
-        expect(File.directory?(custom_cron_dir)).to be true
-        expect(File.directory?(default_output_dir)).to be true
+      it 'creates config directory at /tmp/config but all other directories are at default locations' do
+        system("speedtest_init --custom-config #{custom_config_dir}")
         expect(File.directory?(default_log_dir)).to be true
+        expect(File.directory?(default_output_dir)).to be true
+        expect(File.directory?(custom_config_dir)).to be true
       end
     end
 
@@ -85,7 +85,7 @@ FILE
         expect(File.read(default_cron_file)).to eq(custom_cron_file_contents)
         expect(File.directory?(default_output_dir)).to be true
         expect(File.directory?(default_log_dir)).to be true
-        expect(File.directory?(default_cron_dir)).to be true
+        expect(File.directory?(default_config_dir)).to be true
       end
     end
   end
@@ -96,12 +96,13 @@ describe 'Run command line executable speedtest_init,' do
     let (:base_dir) { '/tmp' }
     let (:default_output_dir) { "~/.local/share/speedtest/output" }
     let (:default_log_dir) { "~/.speedtest/log" }
-    let (:default_cron_dir) { "~/.config/speedtest/cron" }
-    let (:default_directories_file) { "~/.config/speedtest/directories" }
-    let (:default_cron_file) { "#{default_cron_dir}/cron.rb" }
+    let (:default_config_dir) { "~/.config/speedtest" }
+    let (:default_dir_list) { "#{default_config_dir}/dir_list" }
+    let (:default_directories_file) { "~/.config/speedtest/dir_list" }
+    let (:default_cron_file) { "#{default_config_dir}/cron.rb" }
     let (:dirs) { [default_output_dir,
                    default_log_dir,
-                   default_cron_dir] }
+                   default_config_dir] }
     let (:frequency_1hr) { ':hour' }
     let (:default_frequency) { '15.minutes' }
     let (:default_cron_file_contents) do
@@ -129,7 +130,7 @@ FILE
       end
     end
 
-    it 'in the specified (default in this case) location a config file called directories exists' do
+    it 'creates a config file called dir_list' do
       system('speedtest_init --setup-default')
       expect(File.exist?(default_directories_file)).to be true
     end
@@ -149,7 +150,7 @@ FILE
     describe 'print warning messages,' do
       let (:output_dir) { "~/.local/share/speedtest/output" }
       let (:log_dir) { "~/.speedtest/log" }
-      let (:cron_dir) { "~/.config/speedtest/cron" }
+      let (:config_dir) { "~/.config/speedtest" }
       let (:dirs) { [output_dir, log_dir, cron_dir] }
       let (:create_existing_directories) { dirs.each { |dir| FileUtils.mkdir_p(dir) } }
 
@@ -164,7 +165,7 @@ FILE
 
       it 'does not recreate existing directories' do
         expect { system("speedtest_init --setup-default") }
-          .to output(include("#{cron_dir} exists, not created\n",
+          .to output(include("#{config_dir} exists, not created\n",
                              "#{log_dir} exists, not created\n",
                              "#{output_dir} exists, not created\n"))
           .to_stderr_from_any_process

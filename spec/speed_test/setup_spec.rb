@@ -3,17 +3,17 @@ require 'fileutils'
 
 RSpec.describe SpeedTest::Setup do
   describe 'calling execute with default options,' do
-    let (:default_output_dir) { "~/.local/share/speedtest/output" }
-    let (:default_log_dir) { "~/.speedtest/log" }
-    let (:default_cron_dir) { "~/.config/speedtest/cron" }
-    let (:default_cron_file) { "#{default_cron_dir}/cron.rb" }
-    let (:dirs) { [default_output_dir, default_log_dir, default_cron_dir] }
+    let (:default_output_dir) { File.expand_path("~/.local/share/speedtest") }
+    let (:default_log_dir) { File.expand_path("~/.speedtest") }
+    let (:default_config_dir) { File.expand_path("~/.config/speedtest") }
+    let (:default_cron_file) { File.expand_path("#{default_config_dir}/cron.rb") }
+    let (:dirs) { [default_output_dir, default_log_dir, default_config_dir] }
     class MockCli
-      attr_reader :output, :log, :cron, :frequency
+      attr_reader :output, :log, :config, :frequency
       def initialize
         @output = nil
         @log = nil
-        @cron = nil
+        @config = nil
         @frequency = nil
       end
     end
@@ -43,16 +43,16 @@ FILE
       dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir) }
     end
 
-    it 'creates the default output directory at speedtest/output' do
+    it 'creates the default output directory at ~/.local/share/speedtest/output' do
       expect(File.directory?(default_output_dir)).to be true
     end
 
-    it 'creates the default custom log directory at speedtest/log' do
+    it 'creates the default custom log directory at ~/.speedtest/log' do
       expect(File.directory?(default_log_dir)).to be true
     end
 
-    it 'creates the default cron directory at speedtest/cron' do
-      expect(File.directory?(default_cron_dir)).to be true
+    it 'creates the default config directory at ~/.config/speedtest/' do
+      expect(File.directory?(default_config_dir)).to be true
     end
 
     it 'adds and starts the cron_task by calling the whenever gem' do

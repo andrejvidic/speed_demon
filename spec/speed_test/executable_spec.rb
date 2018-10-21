@@ -23,9 +23,9 @@ describe 'Run command line executable speedtest_init,' do
   describe 'supplying at least one custom option,' do
     let (:base_dir) { File.expand_path('/tmp') }
     let (:custom_output_dir) { File.expand_path("#{base_dir}/output") }
-    let (:default_output_dir) { File.expand_path("~/.local/share/speedtest/output") }
+    let (:default_output_dir) { File.expand_path("~/.local/share/speedtest") }
     let (:custom_log_dir) { File.expand_path("#{base_dir}/log") }
-    let (:default_log_dir) { File.expand_path("~/.speedtest/log") }
+    let (:default_log_dir) { File.expand_path("~/.speedtest") }
     let (:custom_config_dir) { File.expand_path("#{base_dir}/config") }
     let (:default_config_dir) { File.expand_path("~/.config/speedtest") }
     let (:custom_config_file) { File.expand_path("#{custom_config_dir}/cron.rb") }
@@ -94,11 +94,11 @@ end
 describe 'Run command line executable speedtest_init,' do
   describe 'supplying CLI flag --setup-default,' do
     let (:base_dir) { File.expand_path('/tmp') }
-    let (:default_output_dir) { File.expand_path("~/.local/share/speedtest/output") }
-    let (:default_log_dir) { File.expand_path("~/.speedtest/log") }
+    let (:default_output_dir) { File.expand_path("~/.local/share/speedtest") }
+    let (:default_log_dir) { File.expand_path("~/.speedtest") }
     let (:default_config_dir) { File.expand_path("~/.config/speedtest") }
     let (:default_cron_file) { File.expand_path("#{default_config_dir}/cron.rb") }
-    let (:default_settings_file) { File.expand_path("#{default_config_dir}/settings.yaml") }    
+    let (:default_settings_file) { File.expand_path("#{default_config_dir}/settings.yaml") }
     let (:dirs) { [default_output_dir,
                    default_log_dir,
                    default_config_dir] }
@@ -129,7 +129,7 @@ FILE
       end
     end
 
-    it 'creates a config file called dir_list' do
+    it 'creates a config file called settings.yaml' do
       system('speedtest_init --setup-default')
       expect(File.exist?(default_settings_file)).to be true
     end
@@ -147,8 +147,8 @@ FILE
 
   describe 'if speedtest directories already exists,' do
     describe 'print warning messages,' do
-    let (:default_output_dir) { File.expand_path("~/.local/share/speedtest/output") }
-    let (:default_log_dir) { File.expand_path("~/.speedtest/log") }
+    let (:default_output_dir) { File.expand_path("~/.local/share/speedtest") }
+    let (:default_log_dir) { File.expand_path("~/.speedtest") }
     let (:default_config_dir) { File.expand_path("~/.config/speedtest") }
     let (:dirs) { [default_output_dir,
                    default_log_dir,

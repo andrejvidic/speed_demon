@@ -1,10 +1,12 @@
 require 'fileutils'
+require 'yaml'
 
 module SpeedTest
   class Setup
     def self.execute(cli)
       setup = new(cli)
       setup.directories
+      setup.settings
       setup.cron
     end
 
@@ -23,6 +25,13 @@ module SpeedTest
           puts "[add] `#{dir}'"
           FileUtils.mkdir_p(dir)
         end
+      end
+    end
+
+    def settings
+      File.open(settings_file_name, "w") do |file|
+        file.write(settings_file_contents).to_yaml
+        file.close
       end
     end
 
@@ -59,6 +68,16 @@ every #{@frequency} do
   command 'ruby speedtest_check'
 end
 FILE
+    end
+
+    def settings_file_name
+      File.expand_path("#{@config}/settings.yml")
+    end
+
+    def settings_file_contents
+      { output: @output,
+        log: @log,
+        config: @config }
     end
   end
 end

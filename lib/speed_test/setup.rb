@@ -75,9 +75,12 @@ FILE
     end
 
     def settings_file_contents
-      { output: @output,
-        log: @log,
-        config: @config }
+<<FILE
+---
+output: @output,
+log: @log,
+config: @config
+FILE
     end
   end
 end

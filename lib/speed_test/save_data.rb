@@ -3,13 +3,24 @@ require 'csv'
 
 module SpeedTest
   class SaveData
-    def initialize(file)
-      @csv_file_name = file
-      create_csv
+    def self.execute(args)
+      save = self.new(args)
+      save.csv
+    end
+
+    def initialize(args)
+      full_output_path = File.expand_path(args[:output_path])
+      @file_name = File.join(full_output_path, "/data.csv")
+      @time = args[:data].time
+      @ping = args[:data].ping
+      @download = args[:data].download
+      @upload = args[:data].upload
+      @wireless = args[:wireless]
+      create_csv unless csv_exists?
     end
 
     def create_csv
-      CSV.open(@csv_file_name, 'a+', headers: true) do |line|
+      CSV.open(@file_name, 'a+', headers: true) do |line|
         # Write headers only if the file is new (empty)
         if line.eof?
           headers = ['Time',
@@ -22,10 +33,17 @@ module SpeedTest
       end
     end
 
-    def save(data)
-      CSV.open(@csv_file_name, 'a+', headers: true) do |line|
-        line << [data[:time], data[:ping], data[:download], data[:upload], data[:wireless?]]
+    def csv
+      CSV.open(@file_name, 'a+', headers: true) do |line|
+        line << [@time, @ping, @download, @upload, @wireless]
       end
     end
+
+    private
+
+    def csv_exists?
+      File.exists?(@file_name)
+    end
+
   end
 end

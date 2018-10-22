@@ -5,10 +5,20 @@ describe SpeedTest::SaveData do
   describe 'for csv output,' do
     let (:base_dir) { '/tmp' }
     let (:speedtest) { "#{base_dir}/speedtest"}
-    let (:output_dir) { "#{base_dir}/speedtest/output" }
+    let (:output_dir) { File.expand_path("~/.local/share/speedtest") }
     let (:dirs) { [speedtest, output_dir] }
-    let (:csv) { "#{output_dir}/speed_data.csv" }
+    let (:csv) {File.join(File.expand_path(output_dir), "/data.csv")}
     let (:create_output_directory) { FileUtils.mkdir_p(output_dir) }
+    class MockSpeedData
+      attr_reader :time, :ping, :download, :upload
+      def initialize
+        @time = Time.now
+        @ping = 10
+        @download = 45
+        @upload = 20
+      end
+    end
+    let (:measurements) { MockSpeedData.new }
 
     before do
       create_output_directory
@@ -20,29 +30,21 @@ describe SpeedTest::SaveData do
     end
 
     it 'creates a csv file in the specified output directory' do
-      SpeedTest::SaveData.new(csv)
+      SpeedTest::SaveData.execute(output_path: output_dir, data: measurements, wireless: true)
       expect(File.exist?(csv)).to be true
     end
 
     it 'the first line of the csv is a header' do
-      SpeedTest::SaveData.new(csv)
+      SpeedTest::SaveData.execute(output_path: output_dir, data: measurements, wireless: true)
       csv_first_line = IO.readlines(csv)[0]
       header_string = "Time,Ping (ms),Download Speed (Mbit/s),Upload Speed (Mbit/s),wireless connection?\n"
       expect(csv_first_line).to eq(header_string)
     end
 
     it 'correctly writes data to csv on 2nd line' do
-      time = Time.now
-      ping = 10
-      download = 45
-      upload = 20
-      SpeedTest::SaveData.new(csv).save(time: time,
-                                        ping: ping,
-                                        download: download,
-                                        upload: upload,
-                                        wireless?: false)
+      SpeedTest::SaveData.execute(output_path: output_dir, data: measurements, wireless: false)
       csv_second_line = IO.readlines(csv)[1]
-      data_string = "#{time},#{ping},#{download},#{upload},false\n"
+      data_string = "#{measurements.time},#{measurements.ping},#{measurements.download},#{measurements.upload},false\n"
       expect(csv_second_line).to eq(data_string)
     end
   end

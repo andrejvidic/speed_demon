@@ -19,7 +19,7 @@ describe SpeedTest::ConnectionType do
     let(:ip_link) { 'connection_info_string' }
 
     before do
-      allow_any_instance_of(described_class).to receive(:system).with('ip link').and_return(ip_link)
+      allow(Open3).to receive(:capture3).with('ip link').and_return(ip_link)
     end
 
     it 'calls linux ip link' do
@@ -37,7 +37,7 @@ describe SpeedTest::ConnectionType do
     let(:connection) { described_class.new }
 
     before do
-      allow_any_instance_of(described_class).to receive(:system).with('ip link').and_return(ip_link)
+      allow(Open3).to receive(:capture3).with('ip link').and_return(ip_link)
     end
 
     it 'returns true when connection is wireless' do
@@ -55,7 +55,7 @@ describe SpeedTest::ConnectionType do
     let(:connection) { described_class.new }
 
     before do
-      allow_any_instance_of(described_class).to receive(:system).with('ip link').and_return(ip_link)
+      allow(Open3).to receive(:capture3).with('ip link').and_return(ip_link)
     end
 
     it 'returns false when connection is network' do

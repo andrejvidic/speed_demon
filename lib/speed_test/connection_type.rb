@@ -1,3 +1,5 @@
+require 'open3'
+
 module SpeedTest
   class ConnectionType
     def initialize
@@ -5,7 +7,8 @@ module SpeedTest
     end
 
     def connection_info
-      system('ip link')
+      stdout, stderr, status = Open3.capture3('ip link')
+      stdout
     end
 
     def wireless?

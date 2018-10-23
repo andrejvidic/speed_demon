@@ -1,11 +1,9 @@
+require 'open3'
+
 module SpeedTest
   class SpeedData
     def initialize
       @info = info
-    end
-
-    def info
-      system('speedtest-cli --simple').split('\n')
     end
 
     def ping
@@ -37,16 +35,22 @@ module SpeedTest
     end
 
     private
+
+    def info
+      stdout, stderr, status = Open3.capture3('speedtest-cli --simple')
+      stdout.split("\n")
+    end
+
     def ping_string
-      info[0]
+      @info[0]
     end
 
     def download_string
-      info[1]
+      @info[1]
     end
 
     def upload_string
-      info[2]
+      @info[2]
     end
   end
 end

@@ -7,7 +7,7 @@ describe SpeedTest::SpeedData do
     end
 
     let(:info) { 'speed info '}
-    let(:speed) { described_class.new}
+    let(:speed) { described_class.new }
 
     it 'calls info' do
       expect(speed.info).to eq(info)
@@ -16,7 +16,7 @@ describe SpeedTest::SpeedData do
 
   describe 'during initialization' do
     let(:speed) { described_class.new }
-    let(:info) { 'Ping: 5.036 ms\nDownload: 36.31 Mbit/s\nUpload: 5.43 Mbit/s' }
+    let(:info) { "Ping: 5.036 ms\nDownload: 36.31 Mbit/s\nUpload: 5.43 Mbit/s" }
     let(:info_array) { ['Ping: 5.036 ms', 'Download: 36.31 Mbit/s', 'Upload: 5.43 Mbit/s'] }
     let(:ping) { '5.036' }
     let(:download) { '36.31' }
@@ -27,11 +27,12 @@ describe SpeedTest::SpeedData do
     let(:time) { Time.now }
 
     before do
-      allow_any_instance_of(described_class).to receive(:system).with('speedtest-cli --simple').and_return(info)
+      allow(Open3).to receive(:capture3).with('speedtest-cli --simple').and_return(info)
     end
 
     it 'calls command line speedtest-cli' do
-      expect(speed.info).to eq(info_array)
+      expect(Open3).to receive(:capture3).with('speedtest-cli --simple').and_return(info)
+      speed
     end
 
     it 'extracts the ping value' do

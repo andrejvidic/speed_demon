@@ -110,8 +110,8 @@ FILE
     let (:default_settings_file_contents) do
 <<FILE
 ---
-output: #{default_output_dir},
-log: #{default_log_dir},
+output: #{default_output_dir}
+log: #{default_log_dir}
 config: #{default_config_dir}
 frequency: #{default_frequency}
 FILE

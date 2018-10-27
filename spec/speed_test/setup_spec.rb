@@ -8,12 +8,12 @@ RSpec.describe SpeedTest::Setup do
     let (:default_config_dir) { File.expand_path("~/.config/speedtest") }
     let (:default_cron_file) { File.expand_path("#{default_config_dir}/cron.rb") }
     let (:dirs) { [default_output_dir, default_log_dir, default_config_dir] }
+    let (:path) {`echo $PATH`}
     class MockCli
-      attr_reader :output, :log, :config, :frequency
+      attr_reader :output, :log, :frequency
       def initialize
         @output = nil
         @log = nil
-        @config = nil
         @frequency = nil
       end
     end
@@ -26,10 +26,10 @@ RSpec.describe SpeedTest::Setup do
 # Learn more: http://github.com/javan/whenever
 #
 
-set :output, "#{default_log_dir}/cron.log"
+job_type :call_executable, 'export PATH=#{path} && :task'
 
 every #{default_frequency} do
-  command 'ruby speedtest_init -m'
+call_executable 'speedtest_init -m >> #{cron_log_file} 2>&1'
 end
 FILE
     end

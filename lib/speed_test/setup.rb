@@ -8,6 +8,7 @@ module SpeedTest
       setup.directories
       setup.settings
       setup.cron
+      setup.cron_start
     end
 
     def initialize(cli)
@@ -15,6 +16,7 @@ module SpeedTest
       @log = File.expand_path(cli.log || "~/.speedtest")
       @config = File.expand_path("~/.config/speedtest")
       @frequency = cli.frequency || '15.minutes'
+      @path = `echo $PATH`
     end
 
     def directories
@@ -36,14 +38,15 @@ module SpeedTest
     end
 
     def cron
-      File.open(cron_file_name, "w") do |file|
-        file.write(cron_file_contents)
+      File.open(cron_schedule_file, "w") do |file|
+        file.write(cron_schedule_file_contents)
         file.close
       end
-    end    
+    end
 
     def cron_start
-      system("whenever --load-file #{cron_file_name}")
+      system("whenever --update-crontab --load-file  #{cron_schedule_file}")
+    end
     end
 
     private
@@ -52,20 +55,24 @@ module SpeedTest
       [] << @output << @log << @config
     end
 
-    def cron_file_name
+    def cron_schedule_file
       File.expand_path("#{@config}/cron.rb")
     end
 
-    def cron_file_contents
+    def cron_log_file
+      File.expand_path("#{@log}/cron.log")
+    end
+
+    def cron_schedule_file_contents
 <<FILE
 # Use this file to easily define all of your cron jobs.
 # Learn more: http://github.com/javan/whenever
 #
 
-set :output, "#{@log}/cron.log"
+job_type :call_executable, 'export PATH=#{@path} && :task'
 
 every #{@frequency} do
-  command 'ruby speedtest_init -m'
+call_executable 'speedtest_init -m >> #{cron_log_file} 2>&1'
 end
 FILE
     end

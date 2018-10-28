@@ -31,7 +31,7 @@ RSpec.describe SpeedTest::Setup do
 job_type :call_executable, 'export PATH=#{path} && :task'
 
 every #{default_frequency} do
-call_executable 'speedtest_init -m | #{timestamp_generator_file} >> #{cron_log_file} 2>&1'
+call_executable 'speedtest_init -m 2>&1 | #{timestamp_generator_file} >> #{cron_log_file}'
 end
 FILE
     end
@@ -45,6 +45,12 @@ while read x; do
     echo -n " ";
     echo $x;
 done
+FILE
+    end
+
+    let (:cron_log_file_contents) do
+<<FILE
+2018-10-28T17:05:15+1100 sh: 1: executable_that_doesnt_exist: not found
 FILE
     end
 
@@ -84,6 +90,15 @@ FILE
     it 'creates the add_timestamp executable' do
       expect(File.exist?(timestamp_generator_file)).to be true
       expect(File.read(timestamp_generator_file)).to eq(timestamp_generator_file_contents)
+    end
+
+    it 'logs an error with timestamp to default cron.log file' do
+      `executable_that_doesnt_exist 2>&1 | "#{timestamp_generator_file}" >> "#{cron_log_file}"`
+      cron_log_file_contents_array = File.read(cron_log_file).partition(' ')
+      cron_log_file_time = cron_log_file_contents_array.first
+      cron_log_file_error = cron_log_file_contents_array.last
+      expect{ DateTime.strptime(cron_log_file_time, '%Y-%m-%dT%T%z') }.to_not raise_error
+      expect(cron_log_file_error).to eq("sh: 1: executable_that_doesnt_exist: not found\n")
     end
   end
 end

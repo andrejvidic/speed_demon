@@ -50,11 +50,11 @@ module SpeedTest
     end
 
     def timestamp_generator
-      File.open(add_timestamp, "w") do |file|
-        file.write(add_timestamp_file_contents)
+      File.open(timestamp_generator_file, "w") do |file|
+        file.write(timestamp_generator_file_contents)
         file.close
       end
-      FileUtils.chmod(0755, add_timestamp)
+      FileUtils.chmod(0755, timestamp_generator_file)
     end
 
     private
@@ -80,12 +80,12 @@ module SpeedTest
 job_type :call_executable, 'export PATH=#{@path} && :task'
 
 every #{@frequency} do
-call_executable 'speedtest_init -m >> #{cron_log_file} 2>&1'
+call_executable 'speedtest_init -m | #{timestamp_generator_file} >> #{cron_log_file} 2>&1'
 end
 FILE
     end
 
-    def add_timestamp_file_contents
+    def timestamp_generator_file_contents
 <<FILE
 #!/bin/bash
 
@@ -97,8 +97,8 @@ done
 FILE
     end
 
-    def add_timestamp
-      File.expand_path("#{@config}/add_timestamp.sh")
+    def timestamp_generator_file
+      File.expand_path("#{@config}/timestamp_generator.sh")
     end
 
     def settings_file_name

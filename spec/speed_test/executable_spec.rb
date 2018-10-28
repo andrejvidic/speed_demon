@@ -34,6 +34,7 @@ describe 'Run command line executable speedtest_init,' do
                    custom_log_dir,
                    default_config_dir] }
     let (:frequency_1hr) { ':hour' }
+    let (:timestamp_generator_file) { File.expand_path("#{default_config_dir}/timestamp_generator.sh") }
     let (:path) {`echo $PATH`}
     let (:custom_cron_file_contents) do
 <<FILE
@@ -44,7 +45,7 @@ describe 'Run command line executable speedtest_init,' do
 job_type :call_executable, 'export PATH=#{path} && :task'
 
 every #{frequency_1hr} do
-call_executable 'speedtest_init -m >> #{default_log_file} 2>&1'
+call_executable 'speedtest_init -m | #{timestamp_generator_file} >> #{default_log_file} 2>&1'
 end
 FILE
     end
@@ -96,6 +97,7 @@ describe 'Run command line executable speedtest_init,' do
                    default_config_dir] }
     let (:frequency_1hr) { ':hour' }
     let (:default_frequency) { '15.minutes' }
+    let (:timestamp_generator_file) { File.expand_path("#{default_config_dir}/timestamp_generator.sh") }
     let (:path) {`echo $PATH`}
     let (:default_cron_file_contents) do
 <<FILE
@@ -106,7 +108,7 @@ describe 'Run command line executable speedtest_init,' do
 job_type :call_executable, 'export PATH=#{path} && :task'
 
 every #{default_frequency} do
-call_executable 'speedtest_init -m >> #{default_log_file} 2>&1'
+call_executable 'speedtest_init -m | #{timestamp_generator_file} >> #{default_log_file} 2>&1'
 end
 FILE
     end

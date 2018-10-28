@@ -9,7 +9,7 @@ RSpec.describe SpeedTest::Setup do
     let (:cron_schedule_file) { File.expand_path("#{config_dir}/cron.rb") }
     let (:cron_log_file) { File.expand_path("#{log_dir}/cron.log") }
     let (:dirs) { [output_dir, log_dir, config_dir] }
-    let (:add_timestamp_file) { File.expand_path("#{config_dir}/add_timestamp.sh") }
+    let (:timestamp_generator_file) { File.expand_path("#{config_dir}/timestamp_generator.sh") }
     let (:path) {`echo $PATH`}
     class MockCli
       attr_reader :output, :log, :frequency
@@ -31,12 +31,12 @@ RSpec.describe SpeedTest::Setup do
 job_type :call_executable, 'export PATH=#{path} && :task'
 
 every #{default_frequency} do
-call_executable 'speedtest_init -m >> #{cron_log_file} 2>&1'
+call_executable 'speedtest_init -m | #{timestamp_generator_file} >> #{cron_log_file} 2>&1'
 end
 FILE
     end
 
-    let (:add_timestamp_file_contents) do
+    let (:timestamp_generator_file_contents) do
 <<FILE
 #!/bin/bash
 
@@ -82,8 +82,8 @@ FILE
     end
 
     it 'creates the add_timestamp executable' do
-      expect(File.exist?(add_timestamp_file)).to be true
-      expect(File.read(add_timestamp_file)).to eq(add_timestamp_file_contents)
+      expect(File.exist?(timestamp_generator_file)).to be true
+      expect(File.read(timestamp_generator_file)).to eq(timestamp_generator_file_contents)
     end
   end
 end

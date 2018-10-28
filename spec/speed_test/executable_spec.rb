@@ -45,7 +45,7 @@ describe 'Run command line executable speedtest_init,' do
 job_type :call_executable, 'export PATH=#{path} && :task'
 
 every #{frequency_1hr} do
-call_executable 'speedtest_init -m | #{timestamp_generator_file} >> #{default_log_file} 2>&1'
+call_executable 'speedtest_init -m 2>&1 | #{timestamp_generator_file} >> #{default_log_file}'
 end
 FILE
     end
@@ -108,7 +108,7 @@ describe 'Run command line executable speedtest_init,' do
 job_type :call_executable, 'export PATH=#{path} && :task'
 
 every #{default_frequency} do
-call_executable 'speedtest_init -m | #{timestamp_generator_file} >> #{default_log_file} 2>&1'
+call_executable 'speedtest_init -m 2>&1 | #{timestamp_generator_file} >> #{default_log_file}'
 end
 FILE
     end

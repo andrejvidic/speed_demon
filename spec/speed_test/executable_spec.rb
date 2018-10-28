@@ -25,6 +25,7 @@ describe 'Run command line executable speedtest_init,' do
     let (:default_output_dir) { File.expand_path("~/.local/share/speedtest") }
     let (:custom_log_dir) { File.expand_path("#{base_dir}/log") }
     let (:default_log_dir) { File.expand_path("~/.speedtest") }
+    let (:default_log_file) { File.expand_path("#{default_log_dir}/cron.log") }
     let (:default_config_dir) { File.expand_path("~/.config/speedtest") }
     let (:default_cron_file) { File.expand_path("#{default_config_dir}/cron.rb") }
     let (:dirs) { [default_output_dir,
@@ -33,16 +34,17 @@ describe 'Run command line executable speedtest_init,' do
                    custom_log_dir,
                    default_config_dir] }
     let (:frequency_1hr) { ':hour' }
+    let (:path) {`echo $PATH`}
     let (:custom_cron_file_contents) do
 <<FILE
 # Use this file to easily define all of your cron jobs.
 # Learn more: http://github.com/javan/whenever
 #
 
-set :output, "#{default_log_dir}/cron.log"
+job_type :call_executable, 'export PATH=#{path} && :task'
 
 every #{frequency_1hr} do
-  command 'ruby speedtest_init -m'
+call_executable 'speedtest_init -m >> #{default_log_file} 2>&1'
 end
 FILE
     end
@@ -85,6 +87,7 @@ describe 'Run command line executable speedtest_init,' do
     let (:base_dir) { File.expand_path('/tmp') }
     let (:default_output_dir) { File.expand_path("~/.local/share/speedtest") }
     let (:default_log_dir) { File.expand_path("~/.speedtest") }
+    let (:default_log_file) { File.expand_path("#{default_log_dir}/cron.log") }
     let (:default_config_dir) { File.expand_path("~/.config/speedtest") }
     let (:default_cron_file) { File.expand_path("#{default_config_dir}/cron.rb") }
     let (:default_settings_file) { File.expand_path("#{default_config_dir}/settings.yaml") }
@@ -93,16 +96,17 @@ describe 'Run command line executable speedtest_init,' do
                    default_config_dir] }
     let (:frequency_1hr) { ':hour' }
     let (:default_frequency) { '15.minutes' }
+    let (:path) {`echo $PATH`}
     let (:default_cron_file_contents) do
 <<FILE
 # Use this file to easily define all of your cron jobs.
 # Learn more: http://github.com/javan/whenever
 #
 
-set :output, "#{default_log_dir}/cron.log"
+job_type :call_executable, 'export PATH=#{path} && :task'
 
 every #{default_frequency} do
-  command 'ruby speedtest_init -m'
+call_executable 'speedtest_init -m >> #{default_log_file} 2>&1'
 end
 FILE
     end
@@ -112,7 +116,6 @@ FILE
 ---
 output: #{default_output_dir}
 log: #{default_log_dir}
-config: #{default_config_dir}
 frequency: #{default_frequency}
 FILE
     end

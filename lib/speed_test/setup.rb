@@ -7,6 +7,7 @@ module SpeedTest
       setup = new(cli)
       setup.directories
       setup.settings
+      setup.timestamp_generator
       setup.cron
       setup.cron_start
     end
@@ -47,6 +48,13 @@ module SpeedTest
     def cron_start
       system("whenever --update-crontab --load-file  #{cron_schedule_file}")
     end
+
+    def timestamp_generator
+      File.open(add_timestamp, "w") do |file|
+        file.write(add_timestamp_file_contents)
+        file.close
+      end
+      FileUtils.chmod(0755, add_timestamp)
     end
 
     private
@@ -75,6 +83,22 @@ every #{@frequency} do
 call_executable 'speedtest_init -m >> #{cron_log_file} 2>&1'
 end
 FILE
+    end
+
+    def add_timestamp_file_contents
+<<FILE
+#!/bin/bash
+
+while read x; do
+    echo -n `date '+%Y-%m-%dT%T%z'`;
+    echo -n " ";
+    echo $x;
+done
+FILE
+    end
+
+    def add_timestamp
+      File.expand_path("#{@config}/add_timestamp.sh")
     end
 
     def settings_file_name

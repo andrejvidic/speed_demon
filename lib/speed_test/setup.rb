@@ -80,7 +80,7 @@ module SpeedTest
 job_type :call_executable, 'export PATH=#{@path} && :task'
 
 every #{@frequency} do
-call_executable 'speedtest_init -m | #{timestamp_generator_file} >> #{cron_log_file} 2>&1'
+call_executable 'speedtest_init -m 2>&1 | #{timestamp_generator_file} >> #{cron_log_file}'
 end
 FILE
     end

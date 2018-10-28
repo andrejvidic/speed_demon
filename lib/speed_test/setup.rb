@@ -84,9 +84,8 @@ FILE
     def settings_file_contents
 <<FILE
 ---
-output: #{@output},
-log: #{@log},
-config: #{@config}
+output: #{@output}
+log: #{@log}
 frequency: #{@frequency}
 FILE
     end

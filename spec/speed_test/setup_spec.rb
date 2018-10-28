@@ -58,10 +58,10 @@ FILE
       expect(File.directory?(config_dir)).to be true
     end
 
-    it 'adds and starts the cron_task by calling the whenever gem' do
-      allow_any_instance_of(SpeedTest::Setup).to receive(:system)
-        .with("whenever --load-file #{default_cron_file}")
-        .and_return(whenever)
+    it 'adds and starts_log_task by  calling the whenever gem' do
+      expect(described_class.new(cli).cron_start).to eq(whenever)
+    end
+
     it 'creates the cron schedule file with correct defaults' do
       expect(File.exist?(cron_schedule_file)).to be true
       expect(File.read(cron_schedule_file)).to eq(cron_schedule_file_contents)

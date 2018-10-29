@@ -53,12 +53,13 @@ FILE
 2018-10-28T17:05:15+1100 sh: 1: executable_that_doesnt_exist: not found
 FILE
     end
+    let (:settings_path) { File.expand_path("~/.config/speedtest") }
 
     before do
       allow_any_instance_of(described_class).to receive(:system)
         .with("whenever --update-crontab --load-file  #{cron_schedule_file}")
         .and_return(whenever)
-      described_class.execute(cli)
+      described_class.execute(cli, settings_path)
     end
 
     after do

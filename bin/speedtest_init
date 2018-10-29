@@ -10,8 +10,8 @@ if cli.setup
 elsif cli.measure
   wireless = SpeedTest::ConnectionType.new.wireless?
   measurements = SpeedTest::SpeedData.new
-  settings = YAML::load_file(File.expand_path("~/.config/speedtest/settings.yaml"))
-  SpeedTest::SaveData.execute(output_path: settings["output"], data: measurements, wireless: wireless)
+  settings = SpeedTest::Settings.load(settings_path)
+  SpeedTest::SaveData.execute(output_path: settings.output, data: measurements, wireless: wireless)
 else
   warn "Speedtest CLI received no options!"
   system('speedtest_init -h')

@@ -3,10 +3,10 @@ require 'yaml'
 
 module SpeedTest
   class Setup
-    def self.execute(cli)
+    def self.execute(cli, settings_file)
       setup = new(cli)
       setup.directories
-      setup.settings
+      setup.settings(settings_file)
       setup.timestamp_generator
       setup.cron
       setup.cron_start
@@ -31,11 +31,12 @@ module SpeedTest
       end
     end
 
-    def settings
-      File.open(settings_file_name, "w") do |file|
-        file.write(settings_file_contents).to_yaml
-        file.close
-      end
+    def settings(settings_file)
+      setup = SpeedTest::Settings.new(settings_file: settings_file,
+                              output: @output,
+                              log: @log,
+                              frequency: @frequency)
+      setup.create_settings_file
     end
 
     def cron
@@ -99,19 +100,6 @@ FILE
 
     def timestamp_generator_file
       File.expand_path("#{@config}/timestamp_generator.sh")
-    end
-
-    def settings_file_name
-      File.expand_path("#{@config}/settings.yaml")
-    end
-
-    def settings_file_contents
-<<FILE
----
-output: #{@output}
-log: #{@log}
-frequency: #{@frequency}
-FILE
     end
   end
 end

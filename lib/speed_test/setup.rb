@@ -31,12 +31,11 @@ module SpeedTest
       end
     end
 
-    def settings(settings_file)
-      setup = SpeedTest::Settings.new(settings_file: settings_file,
-                              output: @output,
-                              log: @log,
-                              frequency: @frequency)
-      setup.create_settings_file
+    def settings(settings_path)
+      SpeedTest::Settings.create(settings_path: settings_path,
+                                 output: @output,
+                                 log: @log,
+                                 frequency: @frequency)
     end
 
     def cron

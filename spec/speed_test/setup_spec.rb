@@ -53,13 +53,13 @@ FILE
 2018-10-28T17:05:15+1100 sh: 1: executable_that_doesnt_exist: not found
 FILE
     end
-    let (:settings_path) { File.expand_path("~/.config/speedtest") }
+    let (:config_dir) { File.expand_path("~/.config/speedtest") }
 
     before do
       allow_any_instance_of(described_class).to receive(:system)
         .with("whenever --update-crontab --load-file  #{cron_schedule_file}")
         .and_return(whenever)
-      described_class.execute(cli, settings_path)
+      described_class.execute(cli, config_dir)
     end
 
     after do
@@ -67,20 +67,20 @@ FILE
       dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir) }
     end
 
-    it 'creates the default output directory at ~/.local/share/speedtest/output' do
+    it 'creates the default output directory' do
       expect(File.directory?(output_dir)).to be true
     end
 
-    it 'creates the default custom log directory at ~/.speedtest/log' do
+    it 'creates the default custom log directory' do
       expect(File.directory?(log_dir)).to be true
     end
 
-    it 'creates the default config directory at ~/.config/speedtest/' do
+    it 'creates the default config directory' do
       expect(File.directory?(config_dir)).to be true
     end
 
     it 'adds and starts_log_task by  calling the whenever gem' do
-      expect(described_class.new(cli).cron_start).to eq(whenever)
+      expect(described_class.new(cli, config_dir).cron_start).to eq(whenever)
     end
 
     it 'creates the cron schedule file with correct defaults' do

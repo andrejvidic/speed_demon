@@ -3,19 +3,19 @@ require 'yaml'
 
 module SpeedTest
   class Setup
-    def self.execute(cli, settings_file)
-      setup = new(cli)
+    def self.execute(cli, config_dir)
+      setup = new(cli, config_dir)
       setup.directories
-      setup.settings(settings_file)
+      setup.settings
       setup.timestamp_generator
       setup.cron
       setup.cron_start
     end
 
-    def initialize(cli)
+    def initialize(cli, config_dir)
       @output = File.expand_path(cli.output || "~/.local/share/speedtest")
       @log = File.expand_path(cli.log || "~/.speedtest")
-      @config = File.expand_path("~/.config/speedtest")
+      @config = File.expand_path(config_dir || "~/.config/speedtest")
       @frequency = cli.frequency || '15.minutes'
       @path = `echo $PATH`
     end
@@ -31,8 +31,8 @@ module SpeedTest
       end
     end
 
-    def settings(settings_path)
-      SpeedTest::Settings.create(settings_path: settings_path,
+    def settings
+      SpeedTest::Settings.create(config: @config,
                                  output: @output,
                                  log: @log,
                                  frequency: @frequency)

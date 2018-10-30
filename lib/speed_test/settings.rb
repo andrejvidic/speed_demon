@@ -1,22 +1,22 @@
 module SpeedTest
   class Settings
-    attr_reader :output, :log, :frequency
+    attr_reader :output, :log, :config, :frequency
 
     def self.create(args)
-      settings_path = File.expand_path(args[:settings_path] || "~/.config/speedtest")
-      self.new(args[:output], args[:log], args[:frequency], settings_path)
-      self.create_settings_file
+      settings = self.new(args)
+      settings.create_settings_file
     end
 
-    def self.load(settings_path)
-      load = YAML::load_file(File.expand_path("#{settings_path}/settings.yaml"))
-      self.new(load["output"], load["log"], load["frequency"], '')
+    def self.load(config_dir)
+      load = YAML::load_file(File.expand_path("#{config_dir}/settings.yaml"))
+      new(output: load["output"], log: load["log"], frequency: load["frequency"], config: '')
     end
 
-    def initialize(output, log, frequency, settings_path='')
-      @output = output
-      @log = log
-      @frequency = frequency
+    def initialize(args)
+      @output = args[:output]
+      @log = args[:log]
+      @frequency = args[:frequency]
+      @config = args[:config]
     end
 
     def create_settings_file
@@ -29,7 +29,7 @@ module SpeedTest
     private
 
     def settings_file_name
-      File.expand_path("#{@settings_path}/settings.yaml")
+      File.expand_path("#{@config}/settings.yaml")
     end
 
     def settings_file_contents

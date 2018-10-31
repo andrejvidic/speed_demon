@@ -50,5 +50,9 @@ FILE
     it 'loads frequency settings given correct path' do
       expect(described_class.load(config).frequency).to eq(frequency)
     end
+
+    it 'raises an error if there is not a saved settings.yaml file' do
+      expect { described_class.load(config) }.to raise_error(LoadError, "settings.yaml does not exist. Run setup")
+    end
   end
 end

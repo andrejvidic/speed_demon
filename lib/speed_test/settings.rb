@@ -8,8 +8,13 @@ module SpeedTest
     end
 
     def self.load(config_dir)
-      load = YAML::load_file(File.expand_path("#{config_dir}/settings.yaml"))
-      new(output: load["output"], log: load["log"], frequency: load["frequency"], config: '')
+      settings_file = File.expand_path("#{config_dir}/settings.yaml)")
+      if File.exist?(settings_file)
+        load = YAML::load_file(settings_file)
+        new(output: load["output"], log: load["log"], frequency: load["frequency"], config: '')
+      else
+        raise LoadError.new("settings.yaml does not exist. Run setup")
+      end
     end
 
     def initialize(args)

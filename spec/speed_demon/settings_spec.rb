@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe SpeedTest::Settings do
+RSpec.describe SpeedDemon::Settings do
   describe 'Save & load settings to/from yaml file,' do
     let (:output) { "/tmp/output" }
     let (:log) { "/tmp/log" }
@@ -23,7 +23,7 @@ FILE
     end
 
     before do
-      FileUtils.mkdir_p(config) # make directory as this is usually done in SpeedTest::Setup
+      FileUtils.mkdir_p(config) # make directory as this is usually done in SpeedDemon::Setup
       create_settings_yaml
     end
 

@@ -1,4 +1,4 @@
-require 'speed_test'
+require 'speed_demon'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

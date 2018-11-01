@@ -23,25 +23,25 @@ i.e the calculated speed will be less than that actual speed.
 ** Installation
 1. git clone this project to a desired location
 2. install the dependencies listed
-3. call speedtest_init from the command line with optional INSTALL_PATH and desired options
-: speedtest_init INSTALL_PATH [options]
+3. call speed_demon from the command line with optional INSTALL_PATH and desired options
+: speed_demon INSTALL_PATH [options]
 
 or simply install to current directory with all defaults
-: speedtest_init 
+: speed_demon 
 
 4. enjoy
 
 *** CLI Options
-: speedtest_init [options]
+: speed_demon [options]
 
-|------------+-------------------+-----------------------------------+-----------------+-------------------------------|
-| short flag | --flag [INPUT]    | result                            | [INPUT] options | no flag (default)             |
-|------------+-------------------+-----------------------------------+-----------------+-------------------------------|
-| -h         | --help            | prints all options to CLI         |                 |                               |
-| -o         | --output PATH     | specify path for output directory |                 | INSTALL_PATH/speedtest/output |
-| -l         | --log PATH        | specify path for log directory    |                 | INSTALL_PATH/speedtest/log    |
-| -d         | --data FORMAT     | specify output data format        | csv             | csv                           |
-|            |                   |                                   |                 |                               |
+|------------+----------------+-----------------------------------+-----------------+---------------------------------|
+| short flag | --flag [INPUT] | result                            | [INPUT] options | no flag (default)               |
+|------------+----------------+-----------------------------------+-----------------+---------------------------------|
+| -h         | --help         | prints all options to CLI         |                 |                                 |
+| -o         | --output PATH  | specify path for output directory |                 | INSTALL_PATH/speed_demon/output |
+| -l         | --log PATH     | specify path for log directory    |                 | INSTALL_PATH/speed_demon/log    |
+| -d         | --data FORMAT  | specify output data format        | csv             | csv                             |
+|            |                |                                   |                 |                                 |
 
 ** Output
 As specified by CLI option, for now all output is appended to CSV. 

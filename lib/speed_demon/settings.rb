@@ -1,4 +1,4 @@
-module SpeedTest
+module SpeedDemon
   class Settings
     attr_reader :output, :log, :config, :frequency
 

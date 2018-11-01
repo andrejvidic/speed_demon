@@ -1,11 +1,11 @@
 require 'spec_helper'
 require 'fileutils'
 
-RSpec.describe SpeedTest::Setup do
+RSpec.describe SpeedDemon::Setup do
   describe 'calling execute with default options,' do
-    let (:output_dir) { File.expand_path("~/.local/share/speedtest") }
-    let (:log_dir) { File.expand_path("~/.speedtest") }
-    let (:config_dir) { File.expand_path("~/.config/speedtest") }
+    let (:output_dir) { File.expand_path("~/.local/share/speed_demon") }
+    let (:log_dir) { File.expand_path("~/.speed_demon") }
+    let (:config_dir) { File.expand_path("~/.config/speed_demon") }
     let (:cron_schedule_file) { File.expand_path("#{config_dir}/cron.rb") }
     let (:cron_log_file) { File.expand_path("#{log_dir}/cron.log") }
     let (:dirs) { [output_dir, log_dir, config_dir] }
@@ -31,7 +31,7 @@ RSpec.describe SpeedTest::Setup do
 job_type :call_executable, 'export PATH=#{path} && :task'
 
 every #{default_frequency} do
-call_executable 'speedtest_init -m 2>&1 | #{timestamp_generator_file} >> #{cron_log_file}'
+call_executable 'speed_demon -m 2>&1 | #{timestamp_generator_file} >> #{cron_log_file}'
 end
 FILE
     end
@@ -53,7 +53,7 @@ FILE
 2018-10-28T17:05:15+1100 sh: 1: executable_that_doesnt_exist: not found
 FILE
     end
-    let (:config_dir) { File.expand_path("~/.config/speedtest") }
+    let (:config_dir) { File.expand_path("~/.config/speed_demon") }
 
     before do
       allow_any_instance_of(described_class).to receive(:system)

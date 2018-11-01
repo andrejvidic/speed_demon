@@ -1,12 +1,12 @@
 require 'spec_helper'
 require 'fileutils'
 
-describe 'Run command line executable speedtest_init,' do
+describe 'Run command line executable speed_demon,' do
   describe 'with no flags or options,' do
     it 'prints the help menu to STDOUT' do
-      expect { system('speedtest_init') }
+      expect { system('speed_demon') }
         .to output(
-          include("Usage: speedtest_init [options]",
+          include("Usage: speed_demon [options]",
                   "-h, --help                       Display this screen",
                   "-m, --measure-speed              Measure internet speed and save it",
                   "-s, --setup-default              Setup speedtest directories using defaults",
@@ -18,15 +18,15 @@ describe 'Run command line executable speedtest_init,' do
   end
 end
 
-describe 'Run command line executable speedtest_init,' do
+describe 'Run command line executable speed_demon,' do
   describe 'supplying at least one custom option,' do
     let (:base_dir) { File.expand_path('/tmp') }
     let (:custom_output_dir) { File.expand_path("#{base_dir}/output") }
-    let (:default_output_dir) { File.expand_path("~/.local/share/speedtest") }
+    let (:default_output_dir) { File.expand_path("~/.local/share/speed_demon") }
     let (:custom_log_dir) { File.expand_path("#{base_dir}/log") }
-    let (:default_log_dir) { File.expand_path("~/.speedtest") }
+    let (:default_log_dir) { File.expand_path("~/.speed_demon") }
     let (:default_log_file) { File.expand_path("#{default_log_dir}/cron.log") }
-    let (:default_config_dir) { File.expand_path("~/.config/speedtest") }
+    let (:default_config_dir) { File.expand_path("~/.config/speed_demon") }
     let (:default_cron_file) { File.expand_path("#{default_config_dir}/cron.rb") }
     let (:dirs) { [default_output_dir,
                    custom_output_dir,
@@ -45,7 +45,7 @@ describe 'Run command line executable speedtest_init,' do
 job_type :call_executable, 'export PATH=#{path} && :task'
 
 every #{frequency_1hr} do
-call_executable 'speedtest_init -m 2>&1 | #{timestamp_generator_file} >> #{default_log_file}'
+call_executable 'speed_demon -m 2>&1 | #{timestamp_generator_file} >> #{default_log_file}'
 end
 FILE
     end
@@ -55,16 +55,16 @@ FILE
       dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir) }
     end
 
-    describe 'create directories at locations other than /tmp/speedtest' do
+    describe 'create directories at locations other than /tmp/speed_demon' do
       it 'creates output directory at /tmp/output but all other directories are at default locations' do
-        system("speedtest_init --custom-output #{custom_output_dir}")
+        system("speed_demon --custom-output #{custom_output_dir}")
         expect(File.directory?(custom_output_dir)).to be true
         expect(File.directory?(default_log_dir)).to be true
         expect(File.directory?(default_config_dir)).to be true
       end
 
       it 'creates log directory at /tmp/log but all other directories are at default locations' do
-        system("speedtest_init --custom-log #{custom_log_dir}")
+        system("speed_demon --custom-log #{custom_log_dir}")
         expect(File.directory?(custom_log_dir)).to be true
         expect(File.directory?(default_output_dir)).to be true
         expect(File.directory?(default_config_dir)).to be true
@@ -73,7 +73,7 @@ FILE
 
     describe 'sets desired frequency, whilst creating all directories at default locations' do
       it 'overrides default "15.minutes" to every hour (:hour)' do
-        system("speedtest_init --custom-frequency #{frequency_1hr}")
+        system("speed_demon --custom-frequency #{frequency_1hr}")
         expect(File.read(default_cron_file)).to eq(custom_cron_file_contents)
         expect(File.directory?(default_output_dir)).to be true
         expect(File.directory?(default_log_dir)).to be true
@@ -83,13 +83,13 @@ FILE
   end
 end
 
-describe 'Run command line executable speedtest_init,' do
+describe 'Run command line executable speed_demon,' do
   describe 'supplying CLI flag --setup-default,' do
     let (:base_dir) { File.expand_path('/tmp') }
-    let (:default_output_dir) { File.expand_path("~/.local/share/speedtest") }
-    let (:default_log_dir) { File.expand_path("~/.speedtest") }
+    let (:default_output_dir) { File.expand_path("~/.local/share/speed_demon") }
+    let (:default_log_dir) { File.expand_path("~/.speed_demon") }
     let (:default_log_file) { File.expand_path("#{default_log_dir}/cron.log") }
-    let (:default_config_dir) { File.expand_path("~/.config/speedtest") }
+    let (:default_config_dir) { File.expand_path("~/.config/speed_demon") }
     let (:default_cron_file) { File.expand_path("#{default_config_dir}/cron.rb") }
     let (:default_settings_file) { File.expand_path("#{default_config_dir}/settings.yaml") }
     let (:dirs) { [default_output_dir,
@@ -108,7 +108,7 @@ describe 'Run command line executable speedtest_init,' do
 job_type :call_executable, 'export PATH=#{path} && :task'
 
 every #{default_frequency} do
-call_executable 'speedtest_init -m 2>&1 | #{timestamp_generator_file} >> #{default_log_file}'
+call_executable 'speed_demon -m 2>&1 | #{timestamp_generator_file} >> #{default_log_file}'
 end
 FILE
     end
@@ -127,39 +127,39 @@ FILE
       dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir) }
     end
 
-    it 'creates all speedtest directories using default locations' do
-      system('speedtest_init --setup-default')
+    it 'creates all speed_demon directories using default locations' do
+      system('speed_demon --setup-default')
       dirs.each do |dir|
         expect(File.directory?(dir)).to be true
       end
     end
 
     it 'creates a config file called settings.yaml' do
-      system('speedtest_init --setup-default')
+      system('speed_demon --setup-default')
       expect(File.exist?(default_settings_file)).to be true
     end
 
     it 'creates settings.yaml with default contents' do
-      system('speedtest_init --setup-default')
+      system('speed_demon --setup-default')
       expect(File.read(default_settings_file)).to eq(default_settings_file_contents)
     end
 
     it 'creates cron.rb schedule file' do
-      system('speedtest_init --setup-default')
+      system('speed_demon --setup-default')
       expect(File.exist?(default_cron_file)).to be true
     end
 
     it 'creates cron.rb schedule file with default contents' do
-      system('speedtest_init --setup-default')
+      system('speed_demon --setup-default')
       expect(File.read(default_cron_file)).to eq(default_cron_file_contents)
     end
   end
 
-  describe 'if speedtest directories already exists,' do
+  describe 'if speed_demon directories already exists,' do
     describe 'print warning messages,' do
-    let (:default_output_dir) { File.expand_path("~/.local/share/speedtest") }
-    let (:default_log_dir) { File.expand_path("~/.speedtest") }
-    let (:default_config_dir) { File.expand_path("~/.config/speedtest") }
+    let (:default_output_dir) { File.expand_path("~/.local/share/speed_demon") }
+    let (:default_log_dir) { File.expand_path("~/.speed_demon") }
+    let (:default_config_dir) { File.expand_path("~/.config/speed_demon") }
     let (:dirs) { [default_output_dir,
                    default_log_dir,
                    default_config_dir] }
@@ -175,7 +175,7 @@ FILE
       end
 
       it 'does not recreate existing directories' do
-        expect { system("speedtest_init --setup-default") }
+        expect { system("speed_demon --setup-default") }
           .to output(include("#{default_config_dir} exists, not created\n",
                              "#{default_log_dir} exists, not created\n",
                              "#{default_output_dir} exists, not created\n"))

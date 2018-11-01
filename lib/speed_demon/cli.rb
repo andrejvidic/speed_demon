@@ -1,7 +1,7 @@
 require 'optparse'
 require 'fileutils'
 
-module SpeedTest
+module SpeedDemon
   class CLI
     def self.parse(args)
       @options = ScriptOptions.new
@@ -21,7 +21,7 @@ module SpeedTest
       end
 
       def define_options(parser)
-        parser.banner = 'Usage: speedtest_init [options]'
+        parser.banner = 'Usage: speed_demon [options]'
 
         display_help(parser)
 

@@ -1,6 +1,6 @@
 require 'open3'
 
-module SpeedTest
+module SpeedDemon
   class ConnectionType
     def initialize
       @connection_info = connection_info

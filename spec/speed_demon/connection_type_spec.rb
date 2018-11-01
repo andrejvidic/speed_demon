@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SpeedTest::ConnectionType do
+describe SpeedDemon::ConnectionType do
   describe 'upon intialization, ' do
     before do
     allow_any_instance_of(described_class).to receive(:connection_info).and_return(ip_link)

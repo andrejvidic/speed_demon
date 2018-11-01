@@ -1,7 +1,7 @@
 require 'fileutils'
 require 'yaml'
 
-module SpeedTest
+module SpeedDemon
   class Setup
     def self.execute(cli, config_dir)
       setup = new(cli, config_dir)
@@ -13,9 +13,9 @@ module SpeedTest
     end
 
     def initialize(cli, config_dir)
-      @output = File.expand_path(cli.output || "~/.local/share/speedtest")
-      @log = File.expand_path(cli.log || "~/.speedtest")
-      @config = File.expand_path(config_dir || "~/.config/speedtest")
+      @output = File.expand_path(cli.output || "~/.local/share/speed_demon")
+      @log = File.expand_path(cli.log || "~/.speed_demon")
+      @config = File.expand_path(config_dir || "~/.config/speed_demon")
       @frequency = cli.frequency || '15.minutes'
       @path = `echo $PATH`
     end
@@ -32,10 +32,10 @@ module SpeedTest
     end
 
     def settings
-      SpeedTest::Settings.create(config: @config,
-                                 output: @output,
-                                 log: @log,
-                                 frequency: @frequency)
+      SpeedDemon::Settings.create(config: @config,
+                                  output: @output,
+                                  log: @log,
+                                  frequency: @frequency)
     end
 
     def cron
@@ -80,7 +80,7 @@ module SpeedTest
 job_type :call_executable, 'export PATH=#{@path} && :task'
 
 every #{@frequency} do
-call_executable 'speedtest_init -m 2>&1 | #{timestamp_generator_file} >> #{cron_log_file}'
+call_executable 'speed_demon -m 2>&1 | #{timestamp_generator_file} >> #{cron_log_file}'
 end
 FILE
     end

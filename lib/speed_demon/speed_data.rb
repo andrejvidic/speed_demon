@@ -1,6 +1,6 @@
 require 'open3'
 
-module SpeedTest
+module SpeedDemon
   class SpeedData
     def initialize
       @info = info

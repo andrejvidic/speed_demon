@@ -1,7 +1,7 @@
 require 'fileutils'
 require 'csv'
 
-module SpeedTest
+module SpeedDemon
   class SaveData
     def self.execute(args)
       save = self.new(args)

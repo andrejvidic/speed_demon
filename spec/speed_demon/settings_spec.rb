@@ -52,6 +52,7 @@ FILE
     end
 
     it 'raises an error if there is not a saved settings.yaml file' do
+      FileUtils.rm_rf(config) if File.directory?(config) # purposely remove config
       expect { described_class.load(config) }.to raise_error(LoadError, "settings.yaml does not exist. Run setup")
     end
   end

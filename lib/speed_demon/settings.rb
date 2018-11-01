@@ -8,7 +8,7 @@ module SpeedDemon
     end
 
     def self.load(config_dir)
-      settings_file = File.expand_path("#{config_dir}/settings.yaml)")
+      settings_file = File.expand_path("#{config_dir}/settings.yaml")
       if File.exist?(settings_file)
         load = YAML::load_file(settings_file)
         new(output: load["output"], log: load["log"], frequency: load["frequency"], config: '')

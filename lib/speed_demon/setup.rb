@@ -2,8 +2,8 @@ require 'fileutils'
 
 module SpeedDemon
   class Setup
-    def self.execute(cli, config_dir)
-      setup = new(cli, config_dir)
+    def self.execute(args)
+      setup = new(args)
       setup.directories
       setup.settings
       setup.timestamp_generator
@@ -11,11 +11,11 @@ module SpeedDemon
       setup.cron_start
     end
 
-    def initialize(cli, config_dir)
-      @output = File.expand_path(cli.output || '~/.local/share/speed_demon')
-      @log = File.expand_path(cli.log || '~/.speed_demon')
-      @config = File.expand_path(config_dir || '~/.config/speed_demon')
-      @frequency = cli.frequency || '15.minutes'
+    def initialize(args)
+      @output = File.expand_path(args[:output] || '~/.local/share/speed_demon')
+      @log = File.expand_path(args[:log] || '~/.speed_demon')
+      @config = File.expand_path(args[:config] || '~/.config/speed_demon')
+      @frequency = args[:frequency] || '15.minutes'
       @path = `echo $PATH`
     end
 

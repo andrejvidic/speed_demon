@@ -7,6 +7,6 @@ require_relative 'speed_demon/cli'
 require_relative 'speed_demon/settings'
 require_relative 'speed_demon/version'
 
+# Append all classes to SpeedDemon module
 module SpeedDemon
-
 end

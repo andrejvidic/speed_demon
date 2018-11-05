@@ -4,9 +4,8 @@ require 'fileutils'
 describe SpeedDemon::SaveData do
   describe 'for csv output,' do
     let(:base_dir) { '/tmp' }
-    let(:speedtest) { "#{base_dir}/speedtest" }
-    let(:output_dir) { File.expand_path('~/.local/share/speedtest') }
-    let(:dirs) { [speedtest, output_dir] }
+    let(:output_dir) { File.expand_path("#{base_dir}/speedtest") }
+    let(:dirs) { [output_dir] }
     let(:csv) do
       File.join(File.expand_path(output_dir), '/data.csv')
     end

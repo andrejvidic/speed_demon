@@ -7,7 +7,7 @@ describe SpeedDemon::SpeedData do
     end
 
     let(:info) { 'speed info ' }
-    let(:speed) { described_class.new }
+    let(:speed) { described_class.new('speedtest-cli --simple') }
 
     it 'calls info' do
       expect(speed.info).to eq(info)
@@ -15,7 +15,7 @@ describe SpeedDemon::SpeedData do
   end
 
   describe 'during initialization' do
-    let(:speed_data) { described_class.new }
+    let(:speed_data) { described_class.new('speedtest-cli --simple') }
     let(:info) { "Ping: 5.036 ms\nDownload: 36.31 Mbit/s\nUpload: 5.43 Mbit/s" }
     let(:info_array) do
       ['Ping: 5.036 ms',

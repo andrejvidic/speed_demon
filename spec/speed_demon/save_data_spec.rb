@@ -13,14 +13,15 @@ describe SpeedDemon::SaveData do
 
     class MockSpeedData
       attr_reader :time, :ping, :download, :upload
-      def initialize
+      def initialize(command)
         @time = Time.now
         @ping = 10
         @download = 45
         @upload = 20
+        @command = command
       end
     end
-    let(:measurements) { MockSpeedData.new }
+    let(:measurements) { MockSpeedData.new('speedtest-cli --simple') }
 
     before do
       create_output_directory

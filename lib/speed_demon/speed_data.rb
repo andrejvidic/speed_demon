@@ -1,6 +1,7 @@
 require 'open3'
 
 module SpeedDemon
+  # Calls linux command line speedtest-cli to gather speed data
   class SpeedData
     def initialize
       @info = info
@@ -37,7 +38,9 @@ module SpeedDemon
     private
 
     def info
-      stdout, stderr, status = Open3.capture3('speedtest-cli --simple')
+      stdout, stderr, _status = Open3.capture3('speedtest-cli --simple')
+      raise NotImplementedError, 'Linux package speedtest-cli not installed, please install.' if stderr
+
       stdout.split("\n")
     end
 

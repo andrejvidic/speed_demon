@@ -68,4 +68,13 @@ describe SpeedDemon::SpeedData do
       expect(speed_data.time).to eq(time)
     end
   end
+
+  describe 'package not installed' do
+    let(:speed_data_error) { described_class.new('speedtest_package') }
+
+    it 'errors if command package is not installed' do
+      expect { speed_data_error.ping }
+        .to raise_error(NotImplementedError, 'Linux package speedtest_package not installed, please install.')
+    end
+  end
 end

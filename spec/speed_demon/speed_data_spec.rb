@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 describe SpeedDemon::SpeedData do
-  describe 'upon initialization, 'do
+  describe 'upon initialization,' do
     before do
       allow_any_instance_of(described_class).to receive(:info).and_return(info)
     end
 
-    let(:info) { 'speed info '}
+    let(:info) { 'speed info ' }
     let(:speed) { described_class.new }
 
     it 'calls info' do
@@ -17,7 +17,11 @@ describe SpeedDemon::SpeedData do
   describe 'during initialization' do
     let(:speed_data) { described_class.new }
     let(:info) { "Ping: 5.036 ms\nDownload: 36.31 Mbit/s\nUpload: 5.43 Mbit/s" }
-    let(:info_array) { ['Ping: 5.036 ms', 'Download: 36.31 Mbit/s', 'Upload: 5.43 Mbit/s'] }
+    let(:info_array) do
+      ['Ping: 5.036 ms',
+       'Download: 36.31 Mbit/s',
+       'Upload: 5.43 Mbit/s']
+    end
     let(:ping) { '5.036' }
     let(:download) { '36.31' }
     let(:upload) { '5.43' }

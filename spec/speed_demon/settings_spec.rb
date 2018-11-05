@@ -2,28 +2,23 @@ require 'spec_helper'
 
 RSpec.describe SpeedDemon::Settings do
   describe 'Save & load settings to/from yaml file,' do
-    let (:output) { "/tmp/output" }
-    let (:log) { "/tmp/log" }
-    let (:frequency) { "2.minutes" }
-    let (:config) { "/tmp/config" }
-    let (:create_settings_yaml) do
-      described_class.create(config: config,
-                             output: output,
-                             log: log,
-                             frequency: frequency)
+    let(:output) { '/tmp/output' }
+    let(:log) { '/tmp/log' }
+    let(:frequency) { '2.minutes' }
+    let(:config) { '/tmp/config' }
+    let(:create_settings_yaml) do
+      described_class.create(config: config, output: output, log: log, frequency: frequency)
     end
 
-    let (:settings_file_contents) do
-<<FILE
----
-output: #{output}
-log: #{log}
-frequency: #{frequency}
-FILE
+    let(:settings_file_contents) do
+      Hash[output: output,
+           log: log,
+           frequency: frequency ].to_yaml
     end
 
     before do
-      FileUtils.mkdir_p(config) # make directory as this is usually done in SpeedDemon::Setup
+      # make directory as this is usually done in SpeedDemon::Setup
+      FileUtils.mkdir_p(config)
       create_settings_yaml
     end
 
@@ -52,8 +47,9 @@ FILE
     end
 
     it 'raises an error if there is not a saved settings.yaml file' do
-      FileUtils.rm_rf(config) if File.directory?(config) # purposely remove config
-      expect { described_class.load(config) }.to raise_error(LoadError, "settings.yaml does not exist. Run setup")
+      # purposely remove config
+      FileUtils.rm_rf(config) if File.directory?(config)
+      expect { described_class.load(config) }.to raise_error(LoadError, 'settings.yaml does not exist. Run setup')
     end
   end
 end

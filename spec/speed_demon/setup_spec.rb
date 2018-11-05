@@ -90,6 +90,17 @@ RSpec.describe SpeedDemon::Setup do
       expect(File.read(timestamp_generator_file)).to eq(timestamp_generator_file_contents)
     end
 
+    it 'does not recreate existing directories' do
+      dirs.each { |dir| FileUtils.mkdir_p(dir) } # create existing directories
+      expect { described_class.execute(output: output_dir,
+                                       log: log_dir,
+                                       config: config_dir) }
+        .to output(include("#{config_dir} exists, not created\n",
+                           "#{log_dir} exists, not created\n",
+                           "#{output_dir} exists, not created\n"))
+        .to_stderr_from_any_process
+    end
+
     it 'logs an error with timestamp to default cron.log file' do
       `executable_that_doesnt_exist 2>&1 | "#{timestamp_generator_file}" >> "#{cron_log_file}"`
       cron_log_file_contents_array = File.read(cron_log_file).partition(' ')

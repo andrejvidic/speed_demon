@@ -1,13 +1,14 @@
 require 'open3'
 
 module SpeedDemon
+  # Determines if the connection type is wireless or not
   class ConnectionType
     def initialize
       @connection_info = connection_info
     end
 
     def connection_info
-      stdout, stderr, status = Open3.capture3('ip link')
+      stdout, _stderr, _status = Open3.capture3('ip link')
       stdout
     end
 

@@ -20,34 +20,41 @@ end
 
 describe 'Run command line executable speed_demon,' do
   describe 'supplying at least one custom option,' do
-    let (:base_dir) { File.expand_path('/tmp') }
-    let (:custom_output_dir) { File.expand_path("#{base_dir}/output") }
-    let (:default_output_dir) { File.expand_path("~/.local/share/speed_demon") }
-    let (:custom_log_dir) { File.expand_path("#{base_dir}/log") }
-    let (:default_log_dir) { File.expand_path("~/.speed_demon") }
-    let (:default_log_file) { File.expand_path("#{default_log_dir}/cron.log") }
-    let (:default_config_dir) { File.expand_path("~/.config/speed_demon") }
-    let (:default_cron_file) { File.expand_path("#{default_config_dir}/cron.rb") }
-    let (:dirs) { [default_output_dir,
-                   custom_output_dir,
-                   default_log_dir,
-                   custom_log_dir,
-                   default_config_dir] }
-    let (:frequency_1hr) { ':hour' }
-    let (:timestamp_generator_file) { File.expand_path("#{default_config_dir}/timestamp_generator.sh") }
-    let (:path) {`echo $PATH`}
-    let (:custom_cron_file_contents) do
-<<FILE
-# Use this file to easily define all of your cron jobs.
-# Learn more: http://github.com/javan/whenever
-#
+    let(:base_dir) { File.expand_path('/tmp') }
+    let(:custom_output_dir) { File.expand_path("#{base_dir}/output") }
+    let(:default_output_dir) { File.expand_path('~/.local/share/speed_demon') }
+    let(:custom_log_dir) { File.expand_path("#{base_dir}/log") }
+    let(:default_log_dir) { File.expand_path('~/.speed_demon') }
+    let(:default_log_file) { File.expand_path("#{default_log_dir}/cron.log") }
+    let(:default_config_dir) { File.expand_path('~/.config/speed_demon') }
+    let(:default_cron_file) do
+      File.expand_path("#{default_config_dir}/cron.rb")
+    end
 
-job_type :call_executable, 'export PATH=#{path} && :task'
+    let(:dirs) do
+      [default_output_dir,
+       custom_output_dir,
+       default_log_dir,
+       custom_log_dir,
+       default_config_dir]
+    end
+    let(:frequency_1hr) { ':hour' }
+    let(:timestamp_generator_file) do
+      File.expand_path("#{default_config_dir}/timestamp_generator.rb")
+    end
+    let(:path) { `echo $PATH` }
+    let(:custom_cron_file_contents) do
+      p <<~RUBY
+      # Use this file to easily define all of your cron jobs.
+      # Learn more: http://github.com/javan/whenever
+      #
 
-every #{frequency_1hr} do
-call_executable 'speed_demon -m 2>&1 | #{timestamp_generator_file} >> #{default_log_file}'
-end
-FILE
+      job_type :call_executable, 'export PATH=#{path} && :task'
+
+      every #{frequency_1hr} do
+        call_executable 'speed_demon -m 2>&1 | ./#{timestamp_generator_file} >> #{default_log_file}'
+      end
+      RUBY
     end
 
     after do
@@ -55,15 +62,15 @@ FILE
       dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir) }
     end
 
-    describe 'create directories at locations other than /tmp/speed_demon' do
-      it 'creates output directory at /tmp/output but all other directories are at default locations' do
+    describe 'override a default directory with a custom location' do
+      it 'creates output directory at /tmp/output' do
         system("speed_demon --custom-output #{custom_output_dir}")
         expect(File.directory?(custom_output_dir)).to be true
         expect(File.directory?(default_log_dir)).to be true
         expect(File.directory?(default_config_dir)).to be true
       end
 
-      it 'creates log directory at /tmp/log but all other directories are at default locations' do
+      it 'creates output directory at /tmp/log' do
         system("speed_demon --custom-log #{custom_log_dir}")
         expect(File.directory?(custom_log_dir)).to be true
         expect(File.directory?(default_output_dir)).to be true
@@ -71,7 +78,7 @@ FILE
       end
     end
 
-    describe 'sets desired frequency, whilst creating all directories at default locations' do
+    describe 'set custom frequency but create directories at default locations' do
       it 'overrides default "15.minutes" to every hour (:hour)' do
         system("speed_demon --custom-frequency #{frequency_1hr}")
         expect(File.read(default_cron_file)).to eq(custom_cron_file_contents)
@@ -85,41 +92,44 @@ end
 
 describe 'Run command line executable speed_demon,' do
   describe 'supplying CLI flag --setup-default,' do
-    let (:base_dir) { File.expand_path('/tmp') }
-    let (:default_output_dir) { File.expand_path("~/.local/share/speed_demon") }
-    let (:default_log_dir) { File.expand_path("~/.speed_demon") }
-    let (:default_log_file) { File.expand_path("#{default_log_dir}/cron.log") }
-    let (:default_config_dir) { File.expand_path("~/.config/speed_demon") }
-    let (:default_cron_file) { File.expand_path("#{default_config_dir}/cron.rb") }
-    let (:default_settings_file) { File.expand_path("#{default_config_dir}/settings.yaml") }
-    let (:dirs) { [default_output_dir,
-                   default_log_dir,
-                   default_config_dir] }
-    let (:frequency_1hr) { ':hour' }
-    let (:default_frequency) { '15.minutes' }
-    let (:timestamp_generator_file) { File.expand_path("#{default_config_dir}/timestamp_generator.sh") }
-    let (:path) {`echo $PATH`}
-    let (:default_cron_file_contents) do
-<<FILE
-# Use this file to easily define all of your cron jobs.
-# Learn more: http://github.com/javan/whenever
-#
-
-job_type :call_executable, 'export PATH=#{path} && :task'
-
-every #{default_frequency} do
-call_executable 'speed_demon -m 2>&1 | #{timestamp_generator_file} >> #{default_log_file}'
-end
-FILE
+    let(:base_dir) { File.expand_path('/tmp') }
+    let(:default_output_dir) { File.expand_path('~/.local/share/speed_demon') }
+    let(:default_log_dir) { File.expand_path('~/.speed_demon') }
+    let(:default_log_file) { File.expand_path("#{default_log_dir}/cron.log") }
+    let(:default_config_dir) { File.expand_path('~/.config/speed_demon') }
+    let(:default_cron_file) { File.expand_path("#{default_config_dir}/cron.rb") }
+    let(:default_settings_file) do
+      File.expand_path("#{default_config_dir}/settings.yaml")
     end
+    let(:dirs) do
+      [default_output_dir,
+       default_log_dir,
+       default_config_dir]
+    end
+    let(:frequency_1hr) { ':hour' }
+    let(:default_frequency) { '15.minutes' }
+    let(:timestamp_generator_file) do
+      File.expand_path("#{default_config_dir}/timestamp_generator.rb")
+    end
+    let(:path) { `echo $PATH` }
+    let(:default_cron_file_contents) do
+      p <<~RUBY 
+      # Use this file to easily define all of your cron jobs.
+      # Learn more: http://github.com/javan/whenever
+      #
+
+      job_type :call_executable, 'export PATH=#{path} && :task'
+
+      every #{default_frequency} do
+        call_executable 'speed_demon -m 2>&1 | ./#{timestamp_generator_file} >> #{default_log_file}'
+      end
+      RUBY
+    end    
 
     let (:default_settings_file_contents) do
-<<FILE
----
-output: #{default_output_dir}
-log: #{default_log_dir}
-frequency: #{default_frequency}
-FILE
+      Hash[output: default_output_dir,
+           log: default_log_dir,
+           frequency: default_frequency ].to_yaml
     end
 
     after do
@@ -141,7 +151,8 @@ FILE
 
     it 'creates settings.yaml with default contents' do
       system('speed_demon --setup-default')
-      expect(File.read(default_settings_file)).to eq(default_settings_file_contents)
+      expect(File.read(default_settings_file))
+        .to eq(default_settings_file_contents)
     end
 
     it 'creates cron.rb schedule file' do
@@ -157,13 +168,17 @@ FILE
 
   describe 'if speed_demon directories already exists,' do
     describe 'print warning messages,' do
-    let (:default_output_dir) { File.expand_path("~/.local/share/speed_demon") }
-    let (:default_log_dir) { File.expand_path("~/.speed_demon") }
-    let (:default_config_dir) { File.expand_path("~/.config/speed_demon") }
-    let (:dirs) { [default_output_dir,
-                   default_log_dir,
-                   default_config_dir] }
-      let (:create_existing_directories) { dirs.each { |dir| FileUtils.mkdir_p(dir) } }
+      let(:default_output_dir) { File.expand_path('~/.local/share/speed_demon') }
+      let(:default_log_dir) { File.expand_path('~/.speed_demon') }
+      let(:default_config_dir) { File.expand_path('~/.config/speed_demon') }
+      let(:dirs) do
+        [default_output_dir,
+         default_log_dir,
+         default_config_dir]
+      end
+      let(:create_existing_directories) do
+        dirs.each { |dir| FileUtils.mkdir_p(dir) }
+      end
 
       before do
         create_existing_directories

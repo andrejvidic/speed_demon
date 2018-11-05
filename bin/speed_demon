@@ -9,7 +9,7 @@ if cli.setup
   SpeedDemon::Setup.execute(cli, config_dir)
 elsif cli.measure
   settings = SpeedDemon::Settings.load(config_dir)
-  measurements = SpeedDemon::SpeedData.new
+  measurements = SpeedDemon::SpeedData.new('speedtest-cli --simple')
   wireless = SpeedDemon::ConnectionType.new.wireless?
   SpeedDemon::SaveData.execute(output_path: settings.output, data: measurements, wireless: wireless)
 else

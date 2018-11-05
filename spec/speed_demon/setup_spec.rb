@@ -3,9 +3,9 @@ require 'fileutils'
 
 RSpec.describe SpeedDemon::Setup do
   describe 'calling execute with default options,' do
-    let(:output_dir) { File.expand_path("~/.local/share/speed_demon") }
-    let(:log_dir) { File.expand_path("~/.speed_demon") }
-    let(:config_dir) { File.expand_path("~/.config/speed_demon") }
+    let(:output_dir) { File.expand_path("/tmp/speed_demon") }
+    let(:log_dir) { File.expand_path("/tmp/log") }
+    let(:config_dir) { File.expand_path("/tmp/config") }
     let(:cron_schedule_file) { File.expand_path("#{config_dir}/cron.rb") }
     let(:cron_log_file) { File.expand_path("#{log_dir}/cron.log") }
     let(:dirs) { [output_dir, log_dir, config_dir] }
@@ -49,13 +49,13 @@ RSpec.describe SpeedDemon::Setup do
     let(:cron_log_file_contents) do
       '2018-10-28T17:05:15+1100 sh: 1: executable_that_doesnt_exist: not found'
     end
-    let(:config_dir) { File.expand_path("~/.config/speed_demon") }
+    let(:config_dir) { File.expand_path("/tmp/config") }
 
     before do
       allow_any_instance_of(described_class).to receive(:system)
         .with("whenever --update-crontab --load-file  #{cron_schedule_file}")
         .and_return(whenever)
-      described_class.execute(cli, config_dir)
+      described_class.execute(output: output_dir, log: log_dir, config: config_dir)
     end
 
     after do
@@ -76,7 +76,8 @@ RSpec.describe SpeedDemon::Setup do
     end
 
     it 'adds and starts_log_task by  calling the whenever gem' do
-      expect(described_class.new(cli, config_dir).cron_start).to eq(whenever)
+      expect(described_class.new(output: output_dir, log: log_dir, config: config_dir).cron_start)
+        .to eq(whenever)
     end
 
     it 'creates the cron schedule file with correct defaults' do

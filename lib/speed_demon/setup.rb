@@ -1,5 +1,4 @@
 require 'fileutils'
-require 'yaml'
 
 module SpeedDemon
   class Setup
@@ -13,9 +12,9 @@ module SpeedDemon
     end
 
     def initialize(cli, config_dir)
-      @output = File.expand_path(cli.output || "~/.local/share/speed_demon")
-      @log = File.expand_path(cli.log || "~/.speed_demon")
-      @config = File.expand_path(config_dir || "~/.config/speed_demon")
+      @output = File.expand_path(cli.output || '~/.local/share/speed_demon')
+      @log = File.expand_path(cli.log || '~/.speed_demon')
+      @config = File.expand_path(config_dir || '~/.config/speed_demon')
       @frequency = cli.frequency || '15.minutes'
       @path = `echo $PATH`
     end
@@ -39,7 +38,7 @@ module SpeedDemon
     end
 
     def cron
-      File.open(cron_schedule_file, "w") do |file|
+      File.open(cron_schedule_file, 'w') do |file|
         file.write(cron_schedule_file_contents)
         file.close
       end
@@ -50,7 +49,7 @@ module SpeedDemon
     end
 
     def timestamp_generator
-      File.open(timestamp_generator_file, "w") do |file|
+      File.open(timestamp_generator_file, 'w') do |file|
         file.write(timestamp_generator_file_contents)
         file.close
       end
@@ -72,33 +71,31 @@ module SpeedDemon
     end
 
     def cron_schedule_file_contents
-<<FILE
-# Use this file to easily define all of your cron jobs.
-# Learn more: http://github.com/javan/whenever
-#
+      p <<~RUBY
+      # Use this file to easily define all of your cron jobs.
+      # Learn more: http://github.com/javan/whenever
+      #
 
-job_type :call_executable, 'export PATH=#{@path} && :task'
+      job_type :call_executable, 'export PATH=#{@path} && :task'
 
-every #{@frequency} do
-call_executable 'speed_demon -m 2>&1 | #{timestamp_generator_file} >> #{cron_log_file}'
-end
-FILE
+      every #{@frequency} do
+        call_executable 'speed_demon -m 2>&1 | ./#{timestamp_generator_file} >> #{cron_log_file}'
+      end
+      RUBY
     end
 
     def timestamp_generator_file_contents
-<<FILE
-#!/bin/bash
+      p <<~RUBY
+      #!/usr/bin/env ruby
 
-while read x; do
-    echo -n `date '+%Y-%m-%dT%T%z'`;
-    echo -n " ";
-    echo $x;
-done
-FILE
+      ARGF.each do |line|
+        puts "#{Time.now.strftime('%Y-%m-%dT%T%z')} " << line
+      end
+      RUBY
     end
 
     def timestamp_generator_file
-      File.expand_path("#{@config}/timestamp_generator.sh")
+      File.expand_path("#{@config}/timestamp_generator.rb")
     end
   end
 end

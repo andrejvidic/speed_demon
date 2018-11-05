@@ -2,21 +2,22 @@ require 'fileutils'
 require 'csv'
 
 module SpeedDemon
+  # Saves measured speed data to a csv file
   class SaveData
     def self.execute(args)
-      save = self.new(args)
+      save = new(args)
       save.csv
     end
 
     def initialize(args)
       full_output_path = File.expand_path(args[:output_path])
-      @file_name = File.join(full_output_path, "/data.csv")
+      @file_name = File.join(full_output_path, '/data.csv')
       @time = args[:data].time
       @ping = args[:data].ping
       @download = args[:data].download
       @upload = args[:data].upload
       @wireless = args[:wireless]
-      create_csv unless csv_exists?
+      create_csv unless csv_exist?
     end
 
     def create_csv
@@ -41,9 +42,8 @@ module SpeedDemon
 
     private
 
-    def csv_exists?
-      File.exists?(@file_name)
+    def csv_exist?
+      File.exist?(@file_name)
     end
-
   end
 end

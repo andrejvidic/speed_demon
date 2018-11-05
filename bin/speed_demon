@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require 'yaml'
+
 require_relative '../lib/speed_demon'
 
 cli = SpeedDemon::CLI.parse(ARGV)

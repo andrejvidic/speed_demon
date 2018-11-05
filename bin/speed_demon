@@ -3,7 +3,7 @@ require 'yaml'
 require_relative '../lib/speed_demon'
 
 cli = SpeedDemon::CLI.parse(ARGV)
-config_dir = "~/.config/speed_demon"
+config_dir = '~/.config/speed_demon'
 
 if cli.setup
   SpeedDemon::Setup.execute(cli, config_dir)
@@ -13,6 +13,6 @@ elsif cli.measure
   wireless = SpeedDemon::ConnectionType.new.wireless?
   SpeedDemon::SaveData.execute(output_path: settings.output, data: measurements, wireless: wireless)
 else
-  warn "speed_demon CLI received no options!"
+  warn 'speed_demon CLI received no options!'
   system('speed_demon -h')
 end

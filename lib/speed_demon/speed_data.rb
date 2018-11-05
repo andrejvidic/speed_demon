@@ -3,7 +3,8 @@ require 'open3'
 module SpeedDemon
   # Calls linux command line speedtest-cli to gather speed data
   class SpeedData
-    def initialize
+    def initialize(command)
+      @command = command
       @info = info
     end
 
@@ -38,10 +39,13 @@ module SpeedDemon
     private
 
     def info
-      stdout, stderr, _status = Open3.capture3('speedtest-cli --simple')
-      raise NotImplementedError, 'Linux package speedtest-cli not installed, please install.' if stderr
-
-      stdout.split("\n")
+      begin
+        stdout, _stderr, _status = Open3.capture3(@command)
+      rescue StandardError
+        raise NotImplementedError, "Linux package #{@command} not installed, please install."
+      else
+        return stdout.split("\n")
+      end
     end
 
     def ping_string

@@ -2,6 +2,7 @@ require 'optparse'
 require 'fileutils'
 
 module SpeedDemon
+  # Handle all command line parsing
   class CLI
     def self.parse(args)
       @options = ScriptOptions.new
@@ -12,6 +13,7 @@ module SpeedDemon
       @options
     end
 
+    # Define each parser as a method object
     class ScriptOptions
       attr_accessor :setup, :measure, :output, :log, :frequency
 
@@ -22,9 +24,7 @@ module SpeedDemon
 
       def define_options(parser)
         parser.banner = 'Usage: speed_demon [options]'
-
         display_help(parser)
-
         # CLI parse options
         measure_speed(parser)
         setup_default(parser)

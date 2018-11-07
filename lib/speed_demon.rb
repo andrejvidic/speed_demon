@@ -5,6 +5,7 @@ require_relative 'speed_demon/save_data'
 require_relative 'speed_demon/setup'
 require_relative 'speed_demon/cli'
 require_relative 'speed_demon/settings'
+require_relative 'speed_demon/runner'
 require_relative 'speed_demon/version'
 
 # Append all classes to SpeedDemon module

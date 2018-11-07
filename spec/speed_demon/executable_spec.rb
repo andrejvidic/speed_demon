@@ -21,7 +21,7 @@ end
 describe 'Use custom command line options to,' do
   context 'override default output & log directories' do
     let(:output_dir) { File.expand_path("/tmp/speed_demon") }
-    let(:log_dir) { File.expand_path("/tmp/custom/log") }
+    let(:log_dir) { File.expand_path("/tmp/log") }
     let(:config_dir) { File.expand_path("/tmp/custom/config") }
     let(:dirs) { [output_dir, log_dir, config_dir] }
 
@@ -30,7 +30,7 @@ describe 'Use custom command line options to,' do
       dirs.each { |dir| FileUtils.rm_rf(dir) if File.directory?(dir) }
     end
 
-    it 'creates output directory at /tmp/custom/output' do
+    it 'outputs creation of custom directories /tmp/speed_demon & /tmp/log to STDOUT' do
       expect { system("speed_demon --custom-output #{output_dir} --custom-log #{log_dir}") }
         .to output(include("[add] `#{output_dir}'",
                            "[add] `#{log_dir}'")).to_stdout_from_any_process

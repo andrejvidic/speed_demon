@@ -58,14 +58,15 @@ This will setup the project with the following defaults:
 - cron log directory at /tmp/speed_demon/log
 - speedtest check frequency of 2 minutes
 
-Note: The most updated lists are in the lib/cli.rb and spec/cli_spec.rb files
+Note: The most updated lists are in the code & tests
 **** Frequency
-Can be called with the following
-'2.minutes' (not recommended to run any more frequent that this)
-'hour'
-'3.hours'
-'1.day'
-'1.day, at: ['4:30 am', '6:00 pm']' (TODO: test, but i think this already works)
+Can be called with the following:
+- '2.minutes' (not recommended to run any more frequent that this)
+- 'hour'
+- '3.hours'
+- '1.day'
+- '1.day, at: ['4:30 am', '6:00 pm']' (TODO: test, but i think this already works)
+
 For more options check out the [[https://github.com/javan/whenever][whenever gem]]
 
 *** CLI Options

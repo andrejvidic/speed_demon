@@ -83,7 +83,7 @@ For more options check out the [[https://github.com/javan/whenever][whenever gem
 | -m         | --measure-speed           | manually run a speed check               |
 |------------+---------------------------+------------------------------------------|
 
-** Output
-As specified by CLI option, for now all output is appended to CSV. 
+** Output file format
+For now all output is in CSV format.
 The output is intended to be used for graphing and analysis.
 

@@ -16,15 +16,16 @@ Allow a user to
 11. Log time when cron errors occurred
 
 ** Dependencies
-
 *** Ruby gem
-whenever
-
-These gems can be installed to the system ruby (if using a rapsberrypi) or can be installed via rbenv.
-
+    The below dependencies can be installed to the system ruby (if using a rapsberrypi) or can be installed via a gem manager such as rbenv. Speed Demon will just run a CLI call to instatiate the gem. So ensure that the global ruby version is the version that has the below gems installed! 
+**** whenever
+     This gem handles cron tasks beautifully, has a great test suite, is well documented/maintained and is used by a large number of people so I decided to integrate with it to draw on its functionality.
 *** Linux packages
-speedtest-cli
-
+The below linux packages are used 
+**** speedtest-cli
+Used to gather data on ping, download speed and upload speed
+**** ip
+Used to determine whether the speed test was done via a wireless or wired connection. This package comes preinstalled as standard with many linux distributions
 ** Hardware requirements
 At least 1Ghz processor and 2Gb of RAM. (Overclocked Raspberrypi 1B)
 These figures are hand wavy. 

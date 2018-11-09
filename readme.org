@@ -46,6 +46,27 @@ This will setup the project with the following defaults:
 - cron log directory at ~/.speed_demon
 - speedtest check frequency of 15 minutes
 
+*** Custom
+1. git clone this project to a desired location
+2. install the dependencies listed
+3. simply install to current directory with all defaults
+   : speed_demon --custom-output /tmp/speed_demon/output --custom-log /tmp/speed_demon/log --custom-frequency '2.minutes'
+
+This will setup the project with the following defaults:
+- output directory at /tmp/speed_demon/output
+- config directory at ~/.config/speed_demon (this cannot be changed)
+- cron log directory at /tmp/speed_demon/log
+- speedtest check frequency of 2 minutes
+
+Note: The most updated lists are in the lib/cli.rb and spec/cli_spec.rb files
+**** Frequency
+Can be called with the following
+'2.minutes' (not recommended to run any more frequent that this)
+'hour'
+'3.hours'
+'1.day'
+'1.day, at: ['4:30 am', '6:00 pm']' (TODO: test, but i think this already works)
+For more options check out the [[https://github.com/javan/whenever][whenever gem]]
 
 *** CLI Options
 : speed_demon [options]

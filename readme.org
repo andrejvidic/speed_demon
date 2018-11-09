@@ -58,7 +58,7 @@ This will setup the project with the following defaults:
 - cron log directory at /tmp/speed_demon/log
 - speedtest check frequency of 2 minutes
 
-Note: The most updated lists are in the code & tests
+Note: The most updated custom options are in the code & tests
 **** Frequency
 Can be called with the following:
 - '2.minutes' (not recommended to run any more frequent that this)

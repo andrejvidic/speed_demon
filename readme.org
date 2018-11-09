@@ -1,8 +1,19 @@
-* Internet Speed Logger
-Run internet connection speed checks for a specified interval and log the results.
+* Speed Demon
+Runs internet connection speed checks for a specified interval and logs the results.
 
-** Project aim
-Run command line executable with or without options and everything is setup.
+** Project aims
+Allow a user to
+1. Be confident that future functionality will not break current functionality (is fully tested)
+2. Access great documentation
+3. Easily extend the current project
+4. Run a single terminal command to setup the project
+5. Easily alter the default settings via command line options
+6. Automate the speed testing to run at their preferred interval
+7. Save results
+8. Log cron errors
+9. Log whether the speed test was done via a wireless or wired connection
+10. Log time at which each speedtest was conducted
+11. Log time when cron errors occurred
 
 ** Dependencies
 

@@ -72,14 +72,16 @@ For more options check out the [[https://github.com/javan/whenever][whenever gem
 *** CLI Options
 : speed_demon [options]
 
-|------------+----------------+-----------------------------------+-----------------+---------------------------------|
-| short flag | --flag [INPUT] | result                            | [INPUT] options | no flag (default)               |
-|------------+----------------+-----------------------------------+-----------------+---------------------------------|
-| -h         | --help         | prints all options to CLI         |                 |                                 |
-| -o         | --output PATH  | specify path for output directory |                 | INSTALL_PATH/speed_demon/output |
-| -l         | --log PATH     | specify path for log directory    |                 | INSTALL_PATH/speed_demon/log    |
-| -d         | --data FORMAT  | specify output data format        | csv             | csv                             |
-|            |                |                                   |                 |                                 |
+|------------+---------------------------+------------------------------------------|
+| Short flag | --options [INPUT]         | Result                                   |
+|------------+---------------------------+------------------------------------------|
+| -h         | --help                    | prints all options to CLI                |
+| -s         | --setup-default           | setup using defaults                     |
+| -o         | --custom-output [PATH]    | specify custom path for output directory |
+| -l         | --custom-log [PATH]       | specify custom path for log directory    |
+| -f         | --custom-frequency [TIME] | specify custom speed measuring frequency |
+| -m         | --measure-speed           | manually run a speed check               |
+|------------+---------------------------+------------------------------------------|
 
 ** Output
 As specified by CLI option, for now all output is appended to CSV. 
